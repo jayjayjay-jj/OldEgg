@@ -1,9 +1,10 @@
 .index {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     padding: 15px;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 15px;
+    gap: 10px;
 }
 
 .left {
@@ -13,16 +14,29 @@
     gap: 10px;
 }
 
+.right {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;  
+}
+
 .sidebarIcon {
     display: flex;
     flex-direction: column;
     width: 40px;
     height: 40px;
+    padding: 5px;
 }
 
 .sidebarImage {
     width: inherit;
     height: inherit;
+}
+
+.sidebarIcon:hover {
+    background-color: #F0F0F0;
+    border-radius: 50px;
 }
 
 .logo {
@@ -38,8 +52,9 @@
 
 .address {
     display: flex;
-    width: 200px;
+    width: 180px;
     height: 55px;
+    padding: 2px 10px;
     align-items: center;
 }
 
@@ -48,8 +63,32 @@
     height: inherit;
 }
 
-.addressSelection {
+.address:hover {
+    background-color: #F0F0F0;
+    border-radius: 40px;
+}
+
+.textSelection {
     font-weight: bold;
+}
+
+.notification {
+    display: flex;
+    flex-direction: column;
+    width: 25px;
+    margin-right: 7px;
+    border: 2px solid black;
+    padding: 5px;
+    border-radius: 50px;
+}
+
+.notificationImage {
+    width: inherit;
+    height: auto;
+}
+
+.notification:hover {
+    background-color: #F0F0F0;
 }
 
 .user {
@@ -57,6 +96,7 @@
     width: 200px;
     height: 55px;
     align-items: center;
+    padding: 2px 10px;
     gap: 2px;
 }
 
@@ -66,5 +106,46 @@
 }
 
 .userSelection {
+    width: 200px;
+    height: 26px;
     font-weight: bold;
+    text-decoration: none;
+    color: black;
+}
+
+.user:hover {
+    background-color: #F0F0F0;
+    border-radius: 40px;
+}
+
+.userSelection:hover {
+    font-weight: bold;
+    text-decoration: underline;
+    color: black;
+}
+
+.return {
+    padding: 5px 18px;
+}
+
+.return:hover {
+    background-color: #F0F0F0;
+    border-radius: 40px;
+}
+
+.cart {
+    display: flex;
+    flex-direction: column;
+    width: 30px;
+    padding: 5px 12px;
+}
+
+.cartImage {
+    width: inherit;
+    height: auto;
+}
+
+.cart:hover {
+    background-color: #F0F0F0;
+    border-radius: 40px;
 }

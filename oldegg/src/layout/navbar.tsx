@@ -3,7 +3,9 @@ import Image from 'next/image';
 import menu from '@/assets/icons/menu.png'
 import logo from '@/assets/logo/Logo.svg'
 import address from '@/assets/icons/address.png'
+import notif from '@/assets/icons/notification.png'
 import people from '@/assets/icons/people.png'
+import cart from '@/assets/icons/shopping.png'
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import getCookie from '@/util/getCookie';
@@ -69,10 +71,16 @@ export default function Navbar() {
                             Hello
                         </div>
 
-                        <div className={style.addressSelection}>
+                        <div className={style.textSelection}>
                             Select Address
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div className={style.right}>
+                <div className={style.notification}>
+                    <Image src={notif} alt="notification" className={style.notificationImage}></Image>
                 </div>
 
                 <div className={style.user}>
@@ -83,15 +91,26 @@ export default function Navbar() {
                             Welcome 
                         </div>
 
-                        <div className={style.userSelection}>
-                            {/* {signIn === 100 ? <div>{user?.first_name}&nbsp;{user?.last_name}</div> 
-                                            : <div><Link href="/account/sign-in">Sign In / Register</Link></div>} */}
-                            {signIn !== 0 ? <div><Link href="/account/sign-in">{message}</Link></div>
-                                            : <div>{user?.first_name}&nbsp;{user?.last_name}</div> }
-                            {signIn === 0 ? <div><Link href="/account/sign-in">Sign In / Register</Link></div>
-                                            : <div>{user?.first_name}&nbsp;{user?.last_name}</div> }
+                        <div>
+                            <div className={style.textSelection}>{user?.first_name ? 
+                                    user?.first_name + " " + user?.last_name : 
+                                    <Link href="/account/sign-in" className={style.userSelection}>Sign In/ Register</Link>}</div>
                         </div>
                     </div>
+                </div>
+
+                <div className={style.return}>
+                    <div>
+                        Returns
+                    </div>
+
+                    <div className={style.textSelection}>
+                        &orders
+                    </div>
+                </div>
+
+                <div className={style.cart}>
+                    <Image src={cart} alt="shoppingCart" className={style.cartImage}></Image>
                 </div>
             </div>
 
