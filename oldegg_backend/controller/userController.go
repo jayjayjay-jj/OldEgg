@@ -59,7 +59,7 @@ func SignIn(ctx *gin.Context) {
 
 	error := bcrypt.CompareHashAndPassword([]byte(userCreated.Password), []byte(attemptUserLogin.Password))
 	if error != nil {
-		ctx.String(200, "Pasword not found!")
+		ctx.String(200, "Password not found!")
 		return
 	}
 	if userCreated.Status != "Active" {

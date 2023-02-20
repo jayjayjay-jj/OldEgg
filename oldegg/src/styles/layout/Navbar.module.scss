@@ -1,0 +1,70 @@
+.index {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 15px;
+}
+
+.left {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.sidebarIcon {
+    display: flex;
+    flex-direction: column;
+    width: 40px;
+    height: 40px;
+}
+
+.sidebarImage {
+    width: inherit;
+    height: inherit;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+}
+
+.logoImage {
+    width: inherit;
+    height: auto;
+}
+
+.address {
+    display: flex;
+    width: 200px;
+    height: 55px;
+    align-items: center;
+}
+
+.addressImage {
+    width: 55px;
+    height: inherit;
+}
+
+.addressSelection {
+    font-weight: bold;
+}
+
+.user {
+    display: flex;
+    width: 200px;
+    height: 55px;
+    align-items: center;
+    gap: 2px;
+}
+
+.userImage {
+    width: 55px;
+    height: inherit;
+}
+
+.userSelection {
+    font-weight: bold;
+}

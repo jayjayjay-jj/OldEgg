@@ -9,7 +9,7 @@ const Authentication = async (token_string:JWT) => {
         console.log(serverAPI)
         console.log(token_string) 
         console.log("authenticate")
-        console.log(response.data)
+        console.log("Response: " + response.data + "\n")
 
         return response.data
 
@@ -17,7 +17,6 @@ const Authentication = async (token_string:JWT) => {
         return 404;
         
     }
-
 }
 
 export default Authentication;

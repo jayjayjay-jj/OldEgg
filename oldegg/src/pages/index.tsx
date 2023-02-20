@@ -49,8 +49,6 @@ export default function Home() {
         </header>
 
           <Link href='/account/sign-in'>Go to sign-in page</Link>
-          <p>{user.first_name}</p>
-          {console.log(user.first_name)}
 
         <footer>
           <Footer />

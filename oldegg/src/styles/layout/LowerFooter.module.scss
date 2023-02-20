@@ -26,12 +26,15 @@
 }
 
 .right {
+    margin-left: 32vw;
+    right: 0px;
     display: flex;
     flex-direction: row;
-    // gap: 20px;
+    gap: 5px;
 }
 
 .image {
+    margin-right: 10px;
     width: 30px;
     height: 30px;
     margin: -10px 0px;

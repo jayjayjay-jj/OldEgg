@@ -35,6 +35,9 @@ const SignInPage = () => {
         } else if(response === "Email not found!") {
             alert("Invalid Email!")
 
+        } else if(response === "Password not found!") {
+            alert("Invalid Password!") 
+        
         } else {
             alert("Sign-In Success!")
             console.log(response)
