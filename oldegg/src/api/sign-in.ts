@@ -6,6 +6,7 @@ const SignIn = async (userAttempt:User) => {
 
     try {
         const response = await axios.post(serverAPI + "sign-in", userAttempt)
+        console.log(userAttempt)
         return response.data
 
     } catch (error) {

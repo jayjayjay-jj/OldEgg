@@ -5,6 +5,9 @@ import getCookie from '@/util/getCookie'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import style from '../styles/page.module.scss'
+import Navbar from '@/layout/navbar'
+import Footer from '@/layout/footer'
+import LowerFooter from '@/layout/lowerFooter'
 
 export default function Home() {
 
@@ -41,10 +44,18 @@ export default function Home() {
   } else {
     return (
       <>
-        <p className='{style.title}'>Home Page</p>
-        <Link href='/sign-in'>Go to sign-in page</Link>
-        <p>{user.first_name}</p>
-        {console.log(user.first_name)}
+        <header>
+          <Navbar />
+        </header>
+
+          <Link href='/account/sign-in'>Go to sign-in page</Link>
+          <p>{user.first_name}</p>
+          {console.log(user.first_name)}
+
+        <footer>
+          <Footer />
+          <LowerFooter />
+        </footer>
       </>
     )
 

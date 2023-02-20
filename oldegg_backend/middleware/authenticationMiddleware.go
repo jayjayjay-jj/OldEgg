@@ -38,6 +38,7 @@ func AuthenticationMiddleware(ctx *gin.Context) {
 
 		return
 	}
+	
 	if claims, ok := result.Claims.(jwt.MapClaims); ok && result.Valid {
 
 		if float64(time.Now().Unix()) > claims["expire"].(float64) {
