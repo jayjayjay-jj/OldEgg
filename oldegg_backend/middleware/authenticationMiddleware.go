@@ -38,7 +38,7 @@ func AuthenticationMiddleware(ctx *gin.Context) {
 
 		return
 	}
-	
+
 	if claims, ok := result.Claims.(jwt.MapClaims); ok && result.Valid {
 
 		if float64(time.Now().Unix()) > claims["expire"].(float64) {
@@ -48,7 +48,12 @@ func AuthenticationMiddleware(ctx *gin.Context) {
 		}
 
 		var currUser model.User
-		config.DB.First(&currUser, "email = ?", claims["subject"])
+		config.DB.Model(model.User{}).Where("email = ?", claims["subject"]).First(&currUser)
+
+		if currUser.Status == "Banned" {
+			ctx.JSON(200, "You can't sign in")
+			return
+		}
 
 		ctx.Set("currentUser", currUser)
 		ctx.Next()

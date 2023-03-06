@@ -50,10 +50,11 @@ func SignIn(ctx *gin.Context) {
 	var attemptUserLogin, userCreated model.User
 	ctx.ShouldBindJSON(&attemptUserLogin)
 
-	config.DB.First(&userCreated, "email = ?", attemptUserLogin.Email)
+	// config.DB.First(&userCreated, "email = ?", attemptUserLogin.Email)
+	config.DB.Model(model.User{}).Where("email = ?", attemptUserLogin.Email).First(&userCreated)
+
 	if userCreated.ID == 0 {
 		ctx.String(200, "Email not found!")
-
 		return
 	}
 
@@ -62,10 +63,12 @@ func SignIn(ctx *gin.Context) {
 		ctx.String(200, "Password not found!")
 		return
 	}
-	if userCreated.Status != "Active" {
-		ctx.String(200, "HAHAHAHAHAHHAHA You're banned!")
+
+	if userCreated.Status == "Banned" {
+		ctx.String(200, "Banned!")
 		return
 	}
+
 	// Generate JWT
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"subject": userCreated.Email,

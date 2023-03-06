@@ -1,0 +1,41 @@
+.outer {
+    // display: flex;
+    // flex-direction: row;
+    height: 70vh;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 17px;
+    gap: 5px;
+}
+
+.carousel {   
+    display: flex;
+    width: inherit;
+    height: inherit;
+    padding: 0px;
+}
+
+.ul {
+    height: 70vh;
+    background-color: #e9f1fc;
+    margin-top: 0px;
+    margin-left: 22px;
+    width: 15vw;
+}
+
+.list {
+    margin-bottom: 10px;
+    list-style: none;
+    color: white;
+    padding-top: 4px;
+}
+
+.link {
+    margin: 2px 0px;
+    list-style: none;
+    text-decoration: none;
+    color: black;
+}
+
+.footer {
+    bottom: 0px;
+}

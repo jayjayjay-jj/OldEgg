@@ -13,6 +13,7 @@ const SignInPage = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [status, setStatus] = useState('')
 
     const route = useRouter()
 
@@ -21,14 +22,16 @@ const SignInPage = () => {
 
         console.log(email)
         console.log(password)
+        console.log(status)
 
         const userAttempt:User = {
             email: email,
-            password: password
+            password: password,
+            status: status,
         }
 
         const response = await SignIn(userAttempt)
-        // console.log("Response: " + response)
+        console.log("Response: " + response)
         if(response === 404) {
             alert("Sign-In Failed!")
 
@@ -37,6 +40,9 @@ const SignInPage = () => {
 
         } else if(response === "Password not found!") {
             alert("Invalid Password!") 
+        
+        } else if(response === "Banned!") {
+            alert("You're banned!") 
         
         } else {
             alert("Sign-In Success!")

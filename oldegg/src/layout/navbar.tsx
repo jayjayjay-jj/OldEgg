@@ -6,15 +6,18 @@ import address from '@/assets/icons/address.png'
 import notif from '@/assets/icons/notification.png'
 import people from '@/assets/icons/people.png'
 import cart from '@/assets/icons/shopping.png'
+import Theme from '@/pages/components/Theme'
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { SetStateAction, useContext, useEffect, useState } from 'react';
 import getCookie from '@/util/getCookie';
 import JWT from '@/types/JWTToken';
 import Authentication from '@/api/authentication';
 import User from '@/types/User';
+import { ThemeContext } from '@/pages/changer/themeChanger';
 
 export default function Navbar() {
     const [user, setUser] = useState<User>()
+    const [langOption, setLangOption] = useState('')
 
     let signIn = 0
     let message = ""
@@ -52,8 +55,16 @@ export default function Navbar() {
         getCurrentUser()
     }, [])
 
+    const handleChange = ((e: { target: { value: SetStateAction<string>; }; }) => {
+        console.log(e.target.value)
+        setLangOption(e.target.value)
+    })
+
+    const { theme } = useContext(ThemeContext);
+    console.log(theme)
+
     return ( 
-        <div className={style.index}>
+        <div className={style.index} style={{ backgroundColor : theme.white_darkBlue }}>
             <div className={style.left}>
                 <div className={style.sidebarIcon}>
                     <Image src={menu} alt="sidebar" className={style.sidebarImage}></Image>
@@ -63,10 +74,10 @@ export default function Navbar() {
                     <Link href="/"><Image src={logo} alt="Newegg" className={style.logoImage}></Image></Link>
                 </div>
 
-                <div className={style.address}>
-                    <Image src={address} alt="sidebar" className={style.addressImage}></Image>
+                <div className={style.address} style={{ backgroundColor : theme.white_gray }}>
+                    <Image src={address} alt="sidebar" className={style.addressImage}  style={{ color : theme.black_white }}></Image>
 
-                    <div className={style.addressText}>
+                    <div className={style.addressText}  style={{ color : theme.black_white }}>
                         <div className={style.addressHello}>
                             Hello
                         </div>
@@ -81,6 +92,17 @@ export default function Navbar() {
             <div className={style.right}>
                 <div className={style.notification}>
                     <Image src={notif} alt="notification" className={style.notificationImage}></Image>
+                </div>
+
+                <div className={style.language}>
+                    <select id="lang" value={langOption} onChange={handleChange}>
+                        <option value="English">English</option>
+                        <option value="Indonesian">Indonesian</option>
+                    </select>
+                </div>
+
+                <div className={style.themeChanger}>
+                    <Theme />
                 </div>
 
                 <div className={style.user}>

@@ -1,9 +1,13 @@
+import { ThemeContext } from '@/pages/changer/themeChanger';
 import style from '@/styles/layout/Footer.module.scss'
 import Link from 'next/link';
+import { useContext } from 'react';
 
 const Footer = () => {
+    const { theme } = useContext(ThemeContext);
+
     return ( 
-        <div className={style.index}>
+        <div className={style.index} style={{ backgroundColor: theme.blue_black }}>
             <div className={style.content}>
 
                 <div className={style.grid}>

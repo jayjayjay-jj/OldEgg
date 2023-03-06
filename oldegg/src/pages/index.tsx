@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import style from '@/styles/Home.module.scss'
 import Navbar from '@/layout/navbar'
 import Footer from '@/layout/footer'
+import Carousel from '@/pages/components/Carousel'
 import LowerFooter from '@/layout/lowerFooter'
 
 export default function Home() {
@@ -49,6 +50,9 @@ export default function Home() {
         </header>
 
         <body className={style.index}>
+          <div>
+            <Carousel />
+          </div>
           <Link href='/account/sign-in'>Go to sign-in page</Link>
         </body>
 
