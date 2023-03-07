@@ -84,6 +84,27 @@ func SignIn(ctx *gin.Context) {
 	ctx.String(200, tokenString)
 }
 
+func ShowAllUser(ctx *gin.Context) {
+	users := []model.User{}
+	config.DB.Find(&users)
+	ctx.JSON(200, &users)
+}
+
+func UpdateUser(ctx *gin.Context) {
+	var user model.User
+	config.DB.Where("id = ?", ctx.Param("id")).First(&user)
+	ctx.BindJSON(&user)
+
+	config.DB.Save(&user)
+	ctx.JSON(200, &user)
+}
+
+func DeleteUser(ctx *gin.Context) {
+	var user model.User
+	config.DB.Where("id = ?", ctx.Param("id")).Delete(&user)
+	ctx.JSON(200, &user)
+}
+
 func Authenticate(ctx *gin.Context) {
 	currUser, _ := ctx.Get("currentUser")
 

@@ -114,9 +114,9 @@ export default function Navbar() {
                         </div>
 
                         <div>
-                            <div className={style.textSelection}>{user?.first_name ? 
-                                    user?.first_name + " " + user?.last_name : 
-                                    <Link href="/account/sign-in" className={style.userSelection}>Sign In/ Register</Link>}</div>
+                            <div className={style.textSelection}>{user?.first_name ?
+                                <Link href="/account/settings" className={style.userSelection}>{user?.first_name + " " + user?.last_name}</Link> : 
+                                <Link href="/account/sign-in" className={style.userSelection}>Sign In/ Register</Link>}</div>
                         </div>
                     </div>
                 </div>
