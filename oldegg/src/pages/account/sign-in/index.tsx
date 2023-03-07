@@ -3,12 +3,13 @@ import RectangularInputField from "@/pages/components/RectangularInputField";
 import User from "@/types/User";
 import setCookie from "@/util/setCookie";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import style from '@/styles/account/SignInPage.module.scss'
 import Link from "next/link";
 import logo from '../../../assets/logo/logo.svg';
 import Image from "next/image";
 import axios from "axios";
+import { ThemeContext } from "@/pages/changer/themeChanger";
 
 const SignInPage = () => {
 
@@ -22,6 +23,7 @@ const SignInPage = () => {
     const [isCodeSent, setIsCodeSent] = useState(false);
 
     const route = useRouter()
+    const {theme} = useContext(ThemeContext);
 
     const onFormSubmitted = async (e:any) => {
         e.preventDefault();
@@ -115,13 +117,13 @@ const SignInPage = () => {
     }
 
     return ( 
-        <div className={style.all}>
+        <div className={style.all} style={{ backgroundColor : theme.white_gray }}>
             <div className={style.signInHead}>
                 <Link href="/"><Image src={logo} alt="Newegg" className={style.image}></Image></Link>
             </div>
 
             <div className={style.signInBody}>
-                <div className={style.title}>Sign In</div>
+                <div className={style.title}style={{ color : theme.black_white }}>Sign In</div>
                 <br></br>
 
                 {
@@ -132,17 +134,18 @@ const SignInPage = () => {
                         <button className={style.signInStyle}>SIGN IN</button> 
                         <button onClick={ getOneTimeSignInCode } type="button" className={style.button}>
                             GET ONE-TIME SIGN IN CODE
-                        </button>   
-                    </form> :
+                        </button> 
                     
+                    </form> :
                         !isCodeSent ?
                             !isSending ?
-                                <>
+                                <div className={style.codeIndex}>
                                     <RectangularInputField required value={email} onChange={setEmail} placeholder="Email Address" email />
                                     <br />
                                     <button className={style.signInStyle} onClick={ sendCode }>SEND CODE</button>
-                                </> : 
-                                <h3>
+                                </div> : 
+
+                                <h3 className={style.codeSending} style={{ color : theme.black_white }}>
                                     Sending Code
                                 </h3>     
                                 :
@@ -157,16 +160,16 @@ const SignInPage = () => {
 
                 <Link href="/" className={style.link}>What's the One-Time Code?</Link>
 
-                <div className={style.text}>
+                <div className={style.text} style={{ color : theme.black_white }}>
                     <div>
                         New to Newegg?&nbsp;
-                        <Link href="/account/sign-up" className={style.textLink}>Sign Up</Link>
+                        <Link href="/account/sign-up" className={style.textLink} style={{ color : theme.black_white }}>Sign Up</Link>
                     </div>
                 </div>
                 
                 <br></br>
 
-                <div className={style.link}>OR</div>
+                <div className={style.link} style={{ color : theme.black_white }}>OR</div>
 
                 <div>
                     <button className={style.button}>

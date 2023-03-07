@@ -27,6 +27,7 @@
     width: 40px;
     height: 40px;
     padding: 5px;
+    border-radius: 50px;
 }
 
 .sidebarImage {
@@ -53,14 +54,14 @@
 .address {
     display: flex;
     width: 180px;
-    height: 55px;
+    height: 50px;
     padding: 2px 10px;
     align-items: center;
     border-radius: 40px;
 }
 
 .addressImage {
-    width: 55px;
+    width: 50px;
     height: inherit;
 }
 
@@ -72,6 +73,31 @@
     font-weight: bold;
 }
 
+.searchBar {
+    display: flex;
+    width: 450px;
+    height: 50px;
+    padding: 2px 10px;
+    align-items: center;
+    border-radius: 40px;
+    display: flex;
+    flex-direction: row;
+}
+
+.searchInput {
+    width: 450px;
+    height: 50px;
+    padding: 2px 10px;
+    border-radius: 50px;
+}
+
+.searchIcon {
+    width: 75px;
+    height: 50px;
+    border-radius: 50px;
+    margin-left: -75px;
+}
+
 .notification {
     display: flex;
     flex-direction: column;
@@ -79,7 +105,7 @@
     height: 25px;
     margin-right: 7px;
     border: 2px solid black;
-    padding: 5px;
+    padding: 10px;
     border-radius: 50px;
 }
 
@@ -94,6 +120,8 @@
 
 .language {
     width: 60px;
+    height: 50px;
+    border-radius: 30px;
 }
 
 .languageSelection {
@@ -101,23 +129,23 @@
     align-items: center;
     text-align: center;
     width: 65px;
-    height: 35px;
+    height: 50px;
     border: 1px solid black;
-    border-radius: 30px;
+    border-radius: 25px;
     padding: 7px 0px;
-    font-size: 15px;
+    font-size: 20px;
 }
 
 .themeChanger {
     margin-top: 15px;
     padding: 2px 10px;
-    height: 45px;
+    height: 50px;
 }
 
 .user {
     display: flex;
     width: 200px;
-    height: 55px;
+    height: 50px;
     align-items: center;
     padding: 2px 10px;
     gap: 2px;
@@ -125,8 +153,9 @@
 }
 
 .userImage {
-    width: 55px;
+    width: 50px;
     height: inherit;
+    margin-right: 5px;
 }
 
 .userSelection {
@@ -148,11 +177,14 @@
 }
 
 .return {
-    padding: 14px 18px 0px 20px;
-    height: 45px;
-    width: auto;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
+    height: 50px;
+    padding: 2px 15px 2px 18px;
+    width: auto;
     border-radius: 40px;
 }
 
@@ -165,7 +197,11 @@
     display: flex;
     flex-direction: column;
     width: 30px;
-    padding: 5px 12px;
+    height: 30px;
+    margin-right: 7px;
+    border: 2px solid black;
+    padding: 10px;
+    border-radius: 50px;
 }
 
 .cartImage {
@@ -175,5 +211,4 @@
 
 .cart:hover {
     background-color: #F0F0F0;
-    border-radius: 40px;
 }

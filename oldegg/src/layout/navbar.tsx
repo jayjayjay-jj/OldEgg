@@ -6,6 +6,7 @@ import address from '@/assets/icons/address.png'
 import notif from '@/assets/icons/notification.png'
 import people from '@/assets/icons/people.png'
 import cart from '@/assets/icons/shopping.png'
+import search from '@/assets/icons/search.png'
 import Theme from '@/pages/components/Theme'
 import Link from 'next/link';
 import { SetStateAction, useContext, useEffect, useState } from 'react';
@@ -66,7 +67,7 @@ export default function Navbar() {
     return ( 
         <div className={style.index} style={{ backgroundColor : theme.white_darkBlue }}>
             <div className={style.left}>
-                <div className={style.sidebarIcon}>
+                <div className={style.sidebarIcon} style={{ backgroundColor : theme.white_lightBlue }}>
                     <Image src={menu} alt="sidebar" className={style.sidebarImage}></Image>
                 </div>
 
@@ -87,15 +88,27 @@ export default function Navbar() {
                         </div>
                     </div>
                 </div>
-            </div>
 
+                <div className={style.searchBar}>
+                    <div className={style.searchBox}>
+                        <input type='search' className={style.searchInput}></input>
+                    </div>
+
+                    <div>
+                        <button className={style.searchIcon}>
+                            <Image src={search} alt="sidebar" className={style.searchImage}></Image>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
             <div className={style.right}>
-                <div className={style.notification}>
+                <div className={style.notification} style={{ backgroundColor : theme.white_lightBlue }}>
                     <Image src={notif} alt="notification" className={style.notificationImage}></Image>
                 </div>
 
                 <div className={style.language}>
-                    <select id="lang" value={langOption} onChange={handleChange} className={style.languageSelection}>
+                    <select id="lang" value={langOption} onChange={handleChange} className={style.languageSelection} style={{ backgroundColor : theme.white_lightBlue }}>
                         <option value="English">EN</option>
                         <option value="Indonesian">IND</option>
                     </select>
@@ -131,7 +144,7 @@ export default function Navbar() {
                     </div>
                 </div>
 
-                <div className={style.cart}>
+                <div className={style.cart} style={{ backgroundColor : theme.white_lightBlue }}>
                     <Image src={cart} alt="shoppingCart" className={style.cartImage}></Image>
                 </div>
             </div>

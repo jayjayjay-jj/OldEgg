@@ -4,13 +4,14 @@ import Navbar from "@/layout/navbar";
 import JWT from "@/types/JWTToken";
 import User from "@/types/User";
 import getCookie from "@/util/getCookie";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import style from '@/styles/account/AccountSettings.module.scss'
 import LowerFooter from "@/layout/lowerFooter";
 import ShowAllUser from "@/pages/admin/users";
 import { useRouter } from "next/router";
 import SignIn from "@/api/sign-in";
 import Link from "next/link";
+import { ThemeContext } from "@/pages/changer/themeChanger";
 
 const AccountSettingsPage = () => {
     const [user, setUser] = useState<User>()
@@ -59,30 +60,40 @@ const AccountSettingsPage = () => {
         route.push("/")
     }
 
+    const { theme } = useContext(ThemeContext);
+
     return ( 
         <div>
             <Navbar />
-            
-            <div>
-                <div className={style.showAllUser}>
-                    <Link href='/admin/users' className={style.link}>Show All User</Link>
-                </div>
-            </div>
 
-            <div className={style.body}>
-                <div className={style.user}>
+            <div className={style.body} style={{ backgroundColor : theme.white_gray }}>
+                <div className={style.upper}>
+                    <div className={style.upperButton}>
+                        <Link href='/admin/users' className={style.link}>User</Link>
+                    </div>
+
+                    <div className={style.upperButton}>
+                        <Link href='/admin/shops/shops' className={style.link}>Shop</Link>
+                    </div>
+
+                    <div className={style.upperButton}>
+                        <Link href='/admin/vouchers/vouchers' className={style.link}>Voucher</Link>
+                    </div>
+                </div>
+
+                <div className={style.user} style={{ color : theme.black_white }}>
                     {user?.first_name + " " + user?.last_name}
                 </div>
 
-                <div className={style.card}>
+                <div className={style.card} style={{ backgroundColor : theme.lightBlue_darkBlue }}>
                     Mobile Phone: {user?.mobile_phone_number}
                 </div>
 
-                <div className={style.card}>
+                <div className={style.card} style={{ backgroundColor : theme.lightBlue_darkBlue }}>
                     Email: {user?.email}
                 </div>
 
-                <div className={style.card}>
+                <div className={style.card} style={{ backgroundColor : theme.lightBlue_darkBlue }}>
                     Password: {user?.password}
                     <button className={style.button}>Change Password</button>
                 </div>

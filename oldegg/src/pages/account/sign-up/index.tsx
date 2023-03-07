@@ -3,10 +3,11 @@ import RectangularInputField from "@/pages/components/RectangularInputField";
 import User from "@/types/User";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import style from '@/styles/account/SignUpPage.module.scss'
 import logo from '../../../assets/logo/logo.svg'
 import Image from "next/image";
+import { ThemeContext } from "@/pages/changer/themeChanger";
 
 const SignUpPage = () => {
 
@@ -18,6 +19,7 @@ const SignUpPage = () => {
     const [subscribed, setSubcribed] = useState('');
 
     const router = useRouter()
+    const {theme} = useContext(ThemeContext);
 
     const handleFormSubmit = async (e:any) => {
         e.preventDefault();
@@ -33,12 +35,6 @@ const SignUpPage = () => {
             status: "Active"
         }
 
-        console.log(firstName)
-        console.log(lastName)
-        console.log(email)
-        console.log(mobilePhoneNumber)
-        console.log(password)
-
         const response = await SignUp(newUser)
         if(response === 404) {
             alert("Error in sign-up")
@@ -49,12 +45,12 @@ const SignUpPage = () => {
     }
 
     return ( 
-        <div className={style.all}>
+        <div className={style.all} style={{ backgroundColor : theme.white_gray }}>
             <div className={style.signUpHead}>
                 <Link href="/"><Image src={logo} alt="Newegg" className={style.image}></Image></Link>
             </div>
 
-            <div className={style.signUpHead}>
+            <div className={style.signUpHead} style={{ color : theme.black_white }}>
                 <div className={style.title}>Create Account</div>
                 <br></br>
 
@@ -81,9 +77,9 @@ const SignUpPage = () => {
 
                     <button  className={style.signUpStyle}>Sign Up</button>    
 
-                    <div className={style.textSign}>
+                    <div className={style.textSign} style={{ color : theme.black_white }}>
                         Have an account?&nbsp;   
-                        <Link href="/account/sign-in" className={style.textSignIn}>Sign In</Link>
+                        <Link href="/account/sign-in" className={style.textSignIn} style={{ color : theme.black_white }}>Sign In</Link>
                     </div>
                 </form>
             </div>

@@ -9,6 +9,8 @@ export type ThemeType = {
     blue_black: string,
     lightBlue_black: string,
     white_gray: string,
+    lightBlue_darkBlue: string,
+    gray_white: string,
 }
 
 export const THEME: { LIGHT: ThemeType, DARK: ThemeType } = {
@@ -21,6 +23,8 @@ export const THEME: { LIGHT: ThemeType, DARK: ThemeType } = {
         blue_black: "#0A185C",
         lightBlue_black: "#E9F1FC",
         white_gray: "#FFF",
+        lightBlue_darkBlue: "#F0F8FF",
+        gray_white: "#D9D9D9"
     },
     DARK: {
         className: "dark",
@@ -31,6 +35,8 @@ export const THEME: { LIGHT: ThemeType, DARK: ThemeType } = {
         blue_black: "#121212",
         lightBlue_black: "#12120B",
         white_gray: "#212121",
+        lightBlue_darkBlue: "#B5CAE9",
+        gray_white: "#FFF"
     },
 }
 
