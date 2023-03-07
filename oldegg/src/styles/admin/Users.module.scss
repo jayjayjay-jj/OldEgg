@@ -1,0 +1,58 @@
+.title {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 35px;
+}
+
+.index {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-wrap: wrap;
+    gap: 35px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 20px;
+}
+
+.userCard {
+    height: auto;
+    width: 250px;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 20px;
+}
+
+.userName {
+    font-weight: bold;
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+.ban {
+    margin-top: 7px;
+    width: 135px;
+    height: 35px;
+    background-color: #e42a2a;
+    border: 1px solid #d60;
+    border-radius: 10px;
+    color: #FFF;
+    font-size: 17px;
+    margin-bottom: 2px;
+}
+
+.unban {
+    margin-top: 7px;
+    width: 135px;
+    height: 35px;
+    background-color: #72d568;
+    border: 1px solid rgb(60, 152, 72);
+    border-radius: 10px;
+    color: #FFF;
+    font-size: 17px;
+    margin-bottom: 2px;
+}
+

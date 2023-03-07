@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import style from '@/pages/components/CarouselCard.module.scss'
 import Link from 'next/link'
 import getCookie from '@/util/getCookie'
 import Authentication from '@/api/authentication'
 import JWT from '@/types/JWTToken'
 import User from '@/types/User'
+import { ThemeContext } from '../changer/themeChanger'
 
 export default function CarouselCard() {
     const [user, setUser] = useState<User>()
@@ -46,19 +47,21 @@ export default function CarouselCard() {
         getCurrentUser()
     }, [])
 
+    const { theme } = useContext(ThemeContext);
+
     return (
         <div className={style.outer}>
-            <div className={style.box}>
-                <div className={style.title}>
+            <div className={style.box} style={{ backgroundColor : theme.white_gray }}>
+                <div className={style.title} style={{ color : theme.black_white }}>
                     HI,&nbsp;{user?.first_name}&nbsp;{user?.last_name}
                 </div>
 
                 <br></br>
 
-                <div className={style.description}>
+                <div className={style.description} style={{ color : theme.black_white }}>
                     Welcome to Newegg! Hope you enjoy shopping here today. If you have any comment or suggestion, please leave us&nbsp;
 
-                    <Link href='/' className={style.link}>feedback</Link>
+                    <Link href='/' className={style.link} style={{ color : theme.black_white }}>feedback</Link>
 
                     .
                 </div>
@@ -72,31 +75,31 @@ export default function CarouselCard() {
                 </div>
             </div>
 
-            <div className={style.box}>
-                <div className={style.title}>
+            <div className={style.box} style={{ backgroundColor : theme.white_gray }}>
+                <div className={style.title} style={{ color : theme.black_white }}>
                     RECENTLY VIEWED ITEM 
                 </div>
 
                 <br></br>
 
-                <div className={style.description}>
+                <div className={style.description} style={{ color : theme.black_white }}>
                     Welcome to Newegg! Hope you enjoy shopping here today. If you have any comment or suggestion, please leave us&nbsp;
 
-                    <Link href='/' className={style.link}>feedback.</Link>
+                    <Link href='/' className={style.link} style={{ color : theme.black_white }}>feedback.</Link>
                 </div>
             </div>
 
-            <div className={style.box}>
-                <div className={style.title}>
+            <div className={style.box} style={{ backgroundColor : theme.white_gray }}>
+                <div className={style.title} style={{ color : theme.black_white }}>
                     CATEGORY YOU MAY BE INTERESTED IN 
                 </div>
 
                 <br></br>
 
-                <div className={style.description}>
+                <div className={style.description} style={{ color : theme.black_white }}>
                     Welcome to Newegg! Hope you enjoy shopping here today. If you have any comment or suggestion, please leave us&nbsp;
 
-                    <Link href='/' className={style.link}>feedback.</Link>
+                    <Link href='/' className={style.link} style={{ color : theme.black_white }}>feedback.</Link>
                 </div>
             </div>
         </div>

@@ -74,10 +74,10 @@ export default function Navbar() {
                     <Link href="/"><Image src={logo} alt="Newegg" className={style.logoImage}></Image></Link>
                 </div>
 
-                <div className={style.address} style={{ backgroundColor : theme.white_gray }}>
-                    <Image src={address} alt="sidebar" className={style.addressImage}  style={{ color : theme.black_white }}></Image>
+                <div className={style.address} style={{ backgroundColor : theme.white_lightBlue}}>
+                    <Image src={address} alt="sidebar" className={style.addressImage}></Image>
 
-                    <div className={style.addressText}  style={{ color : theme.black_white }}>
+                    <div className={style.addressText}>
                         <div className={style.addressHello}>
                             Hello
                         </div>
@@ -95,9 +95,9 @@ export default function Navbar() {
                 </div>
 
                 <div className={style.language}>
-                    <select id="lang" value={langOption} onChange={handleChange}>
-                        <option value="English">English</option>
-                        <option value="Indonesian">Indonesian</option>
+                    <select id="lang" value={langOption} onChange={handleChange} className={style.languageSelection}>
+                        <option value="English">EN</option>
+                        <option value="Indonesian">IND</option>
                     </select>
                 </div>
 
@@ -105,7 +105,7 @@ export default function Navbar() {
                     <Theme />
                 </div>
 
-                <div className={style.user}>
+                <div className={style.user} style={{ backgroundColor : theme.white_lightBlue}}>
                     <Image src={people} alt="user" className={style.userImage}></Image>
 
                     <div className={style.userText}>
@@ -121,7 +121,7 @@ export default function Navbar() {
                     </div>
                 </div>
 
-                <div className={style.return}>
+                <div className={style.return} style={{ backgroundColor : theme.white_lightBlue}}>
                     <div>
                         Returns
                     </div>

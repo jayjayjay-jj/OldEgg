@@ -12,6 +12,7 @@ var DB *gorm.DB
 func migrate() {
 	DB.AutoMigrate(&model.Role{})
 	DB.AutoMigrate(&model.User{})
+	DB.AutoMigrate(&model.OneTimeCode{})
 }
 
 func Connect() {

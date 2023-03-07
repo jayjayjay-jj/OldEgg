@@ -10,31 +10,35 @@ import twitch from '@/assets/socials/twitch.png'
 import discord from '@/assets/socials/discord.png'  
 import tiktok from '@/assets/socials/tiktok.png'  
 import Image from 'next/image';
+import { useContext } from 'react';
+import { ThemeContext } from '@/pages/changer/themeChanger';
 
-const LowerFooter = () => {
+export default function LowerFooter() {
+    const { theme } = useContext(ThemeContext);
+
     return ( 
         <>
-            <div className={style.index}>
-                <div className={style.left}>
+            <div className={style.index} style={{ backgroundColor : theme.white_gray }}>
+                <div className={style.left} style={{ color : theme.black_white }}>
                     <div className={style.copyright}>
                             © 2023 Oldegg Inc. All rights reserved.
                     </div>
 
                     <div>
-                        <Link href="/" className={style.link}>Terms & Conditions</Link>
+                        <Link href="/" className={style.link} style={{ color : theme.black_white }}>Terms & Conditions</Link>
                     </div>
                     
                     <div>
-                        <Link href="/" className={style.link}>Privacy Policy</Link>
+                        <Link href="/" className={style.link} style={{ color : theme.black_white }}>Privacy Policy</Link>
                     </div>
                     
                     <div>
-                        <Link href="/" className={style.link}>Cookie Preferences</Link>
+                        <Link href="/" className={style.link} style={{ color : theme.black_white }}>Cookie Preferences</Link>
                     </div>
                 </div>
 
                 <div className={style.right}>
-                    <Link href="https://www.facebook.com/Newegg"><Image src={facebook} alt="facebook" className={style.image}></Image></Link>
+                    <Link href="https://www.facebook.com/Newegg" ><Image src={facebook} alt="facebook" className={style.image}></Image></Link>
                     <Link href="https://www.twitter.com/Newegg"><Image src={twitter} alt="twitter" className={style.image}></Image></Link>
                     <Link href="https://www.instagram.com/Newegg"><Image src={instagram} alt="instagram" className={style.image}></Image></Link>
                     <Link href="https://www.linkedin.com/company/Newegg-com"><Image src={linkedin} alt="linkedin" className={style.image}></Image></Link>
@@ -48,5 +52,3 @@ const LowerFooter = () => {
         </>
     );
 }
-
-export default LowerFooter;

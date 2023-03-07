@@ -7,13 +7,14 @@ import getCookie from "@/util/getCookie";
 import { useEffect, useState } from "react";
 import style from '@/styles/account/AccountSettings.module.scss'
 import LowerFooter from "@/layout/lowerFooter";
-import killCookie from "@/util/killCookie";
+import ShowAllUser from "@/pages/admin/users";
 import { useRouter } from "next/router";
 import SignIn from "@/api/sign-in";
+import Link from "next/link";
 
 const AccountSettingsPage = () => {
     const [user, setUser] = useState<User>()
-    const route = useRouter()
+    const route = useRouter() 
 
     let signIn = 0
     let message = ""
@@ -61,6 +62,12 @@ const AccountSettingsPage = () => {
     return ( 
         <div>
             <Navbar />
+            
+            <div>
+                <div className={style.showAllUser}>
+                    <Link href='/admin/users' className={style.link}>Show All User</Link>
+                </div>
+            </div>
 
             <div className={style.body}>
                 <div className={style.user}>

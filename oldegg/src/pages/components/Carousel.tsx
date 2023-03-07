@@ -1,8 +1,9 @@
 import next from 'next'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import style from '@/pages/components/Carousel.module.scss'
 import Link from 'next/link'
 import CarouselCard from '@/pages/components/CarouselCard'
+import { ThemeContext } from '../changer/themeChanger'
 
 export default function Carousel() {
     const [carouselImages, setCarouselIMages] = useState([
@@ -46,70 +47,72 @@ export default function Carousel() {
         return () => clearInterval(time)
     }, [carouselImages, imageCarouselIndex])
 
+    const { theme } = useContext(ThemeContext);
+
     return (
         <div className={style.outer}>
             <div className={style.carousel}  style={carousel}>
 
                 <div className={style.sidebar}>
-                    <ul className={style.ul}>
+                    <ul className={style.ul} style={{ backgroundColor : theme.lightBlue_black }}>
                         <li className={style.list}>
-                            <Link href='/' className={style.link}>Components & Storage</Link>
+                            <Link href='/' className={style.link} style={{ color : theme.black_white }}>Components & Storage</Link>
                         </li>
 
                         <li className={style.list}> 
-                            <Link href='/' className={style.link}>Computer Systems</Link>
+                            <Link href='/' className={style.link} style={{ color : theme.black_white }}>Computer Systems</Link>
                         </li>
 
                         <li className={style.list}>
-                            <Link href='/' className={style.link}>Computer Peripherals</Link>
+                            <Link href='/' className={style.link} style={{ color : theme.black_white }}>Computer Peripherals</Link>
                         </li>
 
                         <li className={style.list}>
-                            <Link href='/' className={style.link}>Appliances</Link>                
+                            <Link href='/' className={style.link} style={{ color : theme.black_white }}>Appliances</Link>                
                         </li>
 
                         <li className={style.list}>
-                            <Link href='/' className={style.link}>TV & Home Theater</Link>                
+                            <Link href='/' className={style.link} style={{ color : theme.black_white }}>TV & Home Theater</Link>                
                         </li>
                         
                         <li className={style.list}>
-                            <Link href='/' className={style.link}>Electronics</Link>
+                            <Link href='/' className={style.link} style={{ color : theme.black_white }}>Electronics</Link>
                         </li>
                         
                         <li className={style.list}>
-                            <Link href='/' className={style.link}>Gaming & VR</Link>
+                            <Link href='/' className={style.link} style={{ color : theme.black_white }}>Gaming & VR</Link>
                         </li>
 
                         <li className={style.list}>
-                            <Link href='/' className={style.link}>Networking</Link>
+                            <Link href='/' className={style.link} style={{ color : theme.black_white }}>Networking</Link>
                         </li>
 
                         <li className={style.list}>
-                            <Link href='/' className={style.link}>Smart Home & Security</Link>
+                            <Link href='/' className={style.link} style={{ color : theme.black_white }}>Smart Home & Security</Link>
                         </li>
 
                         <li className={style.list}>
-                            <Link href='/' className={style.link}>Office Solutions</Link>
+                            <Link href='/' className={style.link} style={{ color : theme.black_white }}>Office Solutions</Link>
                         </li>
 
                         <li className={style.list}>
-                            <Link href='/' className={style.link}>Software & Services</Link>
+                            <Link href='/' className={style.link} style={{ color : theme.black_white }}>Software & Services</Link>
                         </li>
 
                         <li className={style.list}>
-                            <Link href='/' className={style.link}>Automotive & Tools</Link>
+                            <Link href='/' className={style.link} style={{ color : theme.black_white }}>Automotive & Tools</Link>
                         </li>
 
                         <li className={style.list}>
-                            <Link href='/'className={style.link}>Home & Outdoors</Link>
+                            <Link href='/'className={style.link} style={{ color : theme.black_white }}>Home & Outdoors</Link>
                         </li>
 
                         <li className={style.list}>
-                            <Link href='/' className={style.link}>Health & Sports</Link>
+                            <Link href='/' className={style.link} style={{ color : theme.black_white }}>Health & Sports</Link>
                         </li>
 
                         <li className={style.list}>
-                            <Link href='/' className={style.link}>Toys, Drones & Maker</Link>
+                            <Link href='/' className={style.link} style={{ color : theme.black_white }}>Toys, Drones & Maker</Link>
                         </li>
                     </ul> 
                 </div>

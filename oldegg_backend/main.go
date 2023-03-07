@@ -15,7 +15,7 @@ func main() {
 
 	options := cors.Options{
 		AllowedOrigins:   []string{"http://localhost:3000"},
-		AllowedMethods:   []string{"GET", "POST", "PATCH", "PUT", "DEELTE", "OPTIONS"},
+		AllowedMethods:   []string{"GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"},
 		AllowCredentials: true,
 	}
 

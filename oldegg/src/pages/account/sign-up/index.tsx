@@ -44,7 +44,7 @@ const SignUpPage = () => {
             alert("Error in sign-up")
         } else {
             alert("Sign-up successfull! Account created.")
-            router.push("/sign-in")
+            router.push("/account/sign-in")
         }
     }
 
