@@ -13,6 +13,7 @@ func migrate() {
 	DB.AutoMigrate(&model.Role{})
 	DB.AutoMigrate(&model.User{})
 	DB.AutoMigrate(&model.OneTimeCode{})
+	DB.AutoMigrate(&model.Shop{})
 }
 
 func Connect() {

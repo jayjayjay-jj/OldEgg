@@ -39,3 +39,81 @@
 .footer {
     bottom: 0px;
 }
+
+@media screen and (max-width: 820px) {
+    .outer {
+        height: 50vh;
+        font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: 17px;
+        gap: 5px;
+    }
+    
+    .carousel {   
+        height: 100%;
+        width: 100%;
+        padding: 0px;
+    }
+    
+    .ul {
+        display: none;
+        height: 70vh;
+        background-color: #e9f1fc;
+    }
+    
+    .list {
+        margin-bottom: 10px;
+        list-style: none;
+        color: white;
+        padding-top: 4px;
+    }
+    
+    .link {
+        margin: 2px 0px;
+        list-style: none;
+        text-decoration: none;
+        color: black;
+    }
+    
+    .footer {
+        bottom: 0px;
+    }
+}
+
+
+@media screen and (max-width: 400px) {
+    .outer {
+        height: 42vh;
+        font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: 17px;
+        gap: 5px;
+    }
+    
+    .carousel {   
+        height: 275px;
+        width: 375px;
+    }
+    
+    .ul {
+        display: none;
+        height: 70vh;
+        background-color: #e9f1fc;
+    }
+    
+    .list {
+        margin-bottom: 10px;
+        list-style: none;
+        color: white;
+        padding-top: 4px;
+    }
+    
+    .link {
+        margin: 2px 0px;
+        list-style: none;
+        text-decoration: none;
+        color: black;
+    }
+    
+    .footer {
+        bottom: 0px;
+    }
+}

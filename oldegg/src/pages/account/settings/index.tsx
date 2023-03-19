@@ -94,7 +94,7 @@ const AccountSettingsPage = () => {
                 </div>
 
                 <div className={style.card} style={{ backgroundColor : theme.lightBlue_darkBlue }}>
-                    Password: {user?.password}
+                    <p className={style.pass}>Password: {user?.password}</p>
                     <button className={style.button}>Change Password</button>
                 </div>
                 

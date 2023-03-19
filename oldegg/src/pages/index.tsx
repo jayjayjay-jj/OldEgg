@@ -44,7 +44,7 @@ export default function Home() {
 
   } else {
     return (
-      <>
+      <div className={style.index}>
         <header>
           <Navbar />
         </header>
@@ -60,7 +60,7 @@ export default function Home() {
           <Footer />
           <LowerFooter />
         </footer>
-      </>
+      </div>
     )
 
   }

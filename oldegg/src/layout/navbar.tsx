@@ -135,7 +135,7 @@ export default function Navbar() {
                 </div>
 
                 <div className={style.return} style={{ backgroundColor : theme.white_lightBlue}}>
-                    <div>
+                    <div className={style.returnText}>
                         Returns
                     </div>
 

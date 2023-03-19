@@ -23,4 +23,6 @@ func UserRoute(router *gin.Engine) {
 	router.POST("/sign-in-with-one-time-code", controller.SignInWithOneTimeCode)
 	router.POST("/get-user-by-id", controller.GetUserByID)
 
+	router.POST("/insert-shop", controller.InsertShop)
+	router.POST("/shop-sign-in", controller.ShopSignIn)
 }
