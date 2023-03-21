@@ -5,20 +5,93 @@ import { ThemeContext } from "@/pages/changer/themeChanger";
 import RectangularInputField from "@/pages/components/RectangularInputField";
 import Theme from "@/pages/components/Theme";
 import style from '@/styles/shop/InsertShop.module.scss';
+import Shop from "@/types/Shop";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react"
+import SignUpNewStore from "@/api/insert-new-shop"
+import { initializeApp } from "firebase/app";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import 'firebase/firestore';
+import { getFirestore } from "firebase/firestore";
+import ShopUpperSetting from "@/pages/components/ShopUpperSetting";
+
+// firebase config here 
+const firebaseConfig = {
+    apiKey: "AIzaSyAXFxgRVIZXPztWLmq_xSFm7J_3m-uH5eI",
+    authDomain: "test-ef6c0.firebaseapp.com",
+    projectId: "test-ef6c0",
+    storageBucket: "test-ef6c0.appspot.com",
+    messagingSenderId: "134767382712",
+    appId: "1:134767382712:web:94989969ca5ab737be244d",
+    measurementId: "G-RTLJ5XCEYY"
+};
+
+const app = initializeApp(firebaseConfig)
+const storage = getStorage(app);
+export const db = getFirestore(app)
+
+export function handleFileUpload(file:any) {
+    return new Promise((resolve, reject) => {
+
+        const storageRef = ref(storage, `images/${file.name}`);
+
+        uploadBytes(storageRef, file).then(() => {
+            console.log("File uploaded successfully");
+
+            getDownloadURL(storageRef).then((url:any) => {
+    
+                resolve(url);
+                console.log(url);
+                
+                
+            }).catch((error:any) => {
+                    console.error(error);
+                    reject(error);
+            });
+        }).catch((error:any) => {
+            console.error(error);
+            reject(error);
+        });
+    });
+}
 
 const InsertNewShop = () => {
 
     const[name, setName] = useState('');
     const[email, setEmail] = useState('');
     const[password, setPassword] = useState('');
+    const[url, setUrl] = useState('')
+    
+    const router = useRouter()
+    const {theme} = useContext(ThemeContext);
 
-    const handleFormSubmit = () => {
-
+    async function handleFileChange(event:any) {
+        const file = event.target.files[0];
+        var files = await handleFileUpload(file);
+        setUrl(files)
     }
 
-    const {theme} = useContext(ThemeContext);
+    const handleFormSubmit = async (e:any) => {
+        e.preventDefault();
+
+        const newShop:Shop = {
+            name: name,
+            email: email,
+            password: password,
+            role_id: 3,
+            status: "Active",
+            image: url
+        }
+
+        const response = await SignUpNewStore(newShop)
+        if(response === 404) {
+            alert("Error in sign-up")
+        } else {
+            alert("Sign-up successfull! Account created.")
+            router.push("/")
+        }
+    }
 
     return ( 
         <div>
@@ -26,7 +99,9 @@ const InsertNewShop = () => {
                 <Navbar />
             </header>
 
-            <body>
+            <div>
+                <ShopUpperSetting />
+
                 <div style={{ backgroundColor : theme.white_gray, color: theme.black_white }} className={style.index}>
                     <div className={style.title}>
                         Insert Shop
@@ -41,6 +116,8 @@ const InsertNewShop = () => {
 
                         <RectangularInputField value={password} onChange={setPassword} required placeholder="Password" password />  
 
+                        <input type="file" onChange={handleFileChange} />
+
                         <br></br>
 
                         <button  className={style.insertButton}>
@@ -48,7 +125,7 @@ const InsertNewShop = () => {
                         </button> 
                     </form>
                 </div>
-            </body>
+            </div>
 
             <footer>
                 <Footer />

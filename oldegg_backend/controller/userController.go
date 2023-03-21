@@ -93,13 +93,40 @@ func ShowAllUser(ctx *gin.Context) {
 	ctx.JSON(200, &users)
 }
 
-func UpdateUser(ctx *gin.Context) {
+func ShowAllUserPagination(ctx *gin.Context) {
+
+	type RequestBody struct {
+		UserPage  int `json:"userpage"`
+		UserLimit int `json:"userlimit"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
+	offset := (body.UserPage - 1) * body.UserLimit
+
+	users := []model.User{}
+	config.DB.Limit(body.UserLimit).Offset(offset).Find(&users)
+
+	ctx.JSON(200, &users)
+}
+
+func UpdateUserPhone(ctx *gin.Context) {
+
+	type RequestBody struct {
+		UserID      uint   `json:"user_id"`
+		PhoneNumber string `json:"phone_number"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
 	var user model.User
-	config.DB.Where("id = ?", ctx.Param("id")).First(&user)
-	ctx.BindJSON(&user)
+	config.DB.Model(model.User{}).Where("id = ?", body.UserID).First(&user)
+	user.MobilePhoneNumber = body.PhoneNumber
 
 	config.DB.Save(&user)
-	ctx.JSON(200, &user)
+	ctx.JSON(200, user)
 }
 
 func UpdateUserStatus(ctx *gin.Context) {

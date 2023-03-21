@@ -25,8 +25,6 @@ export default function CarouselCard() {
 
             // console.log(JWT)
             const user = await Authentication(token)
-            console.log(token)
-            console.log(user)
             
             if(user === 404) {
                 signIn = 0
@@ -40,8 +38,6 @@ export default function CarouselCard() {
                 setUser(user)
 
             }
-            console.log(user)
-            console.log(message)
         }
 
         getCurrentUser()

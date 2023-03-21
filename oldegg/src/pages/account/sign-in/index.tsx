@@ -9,7 +9,8 @@ import Link from "next/link";
 import logo from '../../../assets/logo/logo.svg';
 import Image from "next/image";
 import axios from "axios";
-import { ThemeContext } from "@/pages/changer/themeChanger";
+import { ThemeContext } from "@/pages/changer/themeChanger"
+import SignInButton from '@/pages/components/SignInButton';
 
 const SignInPage = () => {
 
@@ -57,6 +58,7 @@ const SignInPage = () => {
             console.log(response)
 
             setCookie("AuthenticationCookie", response, 2)
+            localStorage.setItem("role", "user")
             route.push("/")
         }
     }
@@ -121,6 +123,8 @@ const SignInPage = () => {
             <div className={style.signInHead}>
                 <Link href="/"><Image src={logo} alt="Newegg" className={style.image}></Image></Link>
             </div>
+
+            <SignInButton />
 
             <div className={style.signInBody}>
                 <div className={style.title}style={{ color : theme.black_white }}>Sign In</div>

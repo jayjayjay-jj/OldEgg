@@ -15,10 +15,19 @@ import JWT from '@/types/JWTToken';
 import Authentication from '@/api/authentication';
 import User from '@/types/User';
 import { ThemeContext } from '@/pages/changer/themeChanger';
+import Product from '@/types/Product';
+import { env } from 'process';
+import SearchProduct from '@/api/search-products';
+import axios from 'axios';
 
 export default function Navbar() {
     const [user, setUser] = useState<User>()
     const [langOption, setLangOption] = useState('')
+
+    const [keyword, setKeyword] = useState("");
+    const [products, setProducts] = useState<Array<Product>>([]);
+
+    const [city, setCity] = useState("");
 
     let signIn = 0
     let message = ""
@@ -34,8 +43,6 @@ export default function Navbar() {
 
             // console.log(JWT)
             const user = await Authentication(token)
-            console.log(token)
-            console.log(user)
             
             if(user === 404) {
                 signIn = 0
@@ -49,12 +56,38 @@ export default function Navbar() {
                 setUser(user)
 
             }
-            console.log(user)
-            console.log(message)
         }
 
         getCurrentUser()
+
+        const getCurrentAddress = async () => {
+
+            const response = await axios.get('http://ip-api.com/json');
+            setCity(response.data.city);
+
+        }
+
+        getCurrentAddress();
+
     }, [])
+
+    useEffect(()=> {
+
+        const getProducts = async () => {
+
+            const response: any = await SearchProduct(keyword);
+            if (response === -1) alert('Something Went Wrong'); 
+            else {
+
+                if (response) setProducts(response);
+
+            }
+
+        }
+
+        getProducts();
+
+    }, [keyword]);
 
     const handleChange = ((e: { target: { value: SetStateAction<string>; }; }) => {
         console.log(e.target.value)
@@ -62,7 +95,6 @@ export default function Navbar() {
     })
 
     const { theme } = useContext(ThemeContext);
-    console.log(theme)
 
     return ( 
         <div className={style.index} style={{ backgroundColor : theme.white_darkBlue }}>
@@ -84,20 +116,29 @@ export default function Navbar() {
                         </div>
 
                         <div className={style.textSelection}>
-                            Select Address
+                            {city == "" ? "Select Address" : city}
                         </div>
                     </div>
                 </div>
 
-                <div className={style.searchBar}>
-                    <div className={style.searchBox}>
-                        <input type='search' className={style.searchInput}></input>
-                    </div>
+                <div className={style.navbarContainer}>
+                    <div className={style.searchBar}>
+                        <div className={style.searchBox}>
+                            <input type='search' className={style.searchInput} value={keyword} onChange={(e: any) => setKeyword(e.target.value)}></input>
+                        </div>
 
-                    <div>
-                        <button className={style.searchIcon}>
-                            <Image src={search} alt="sidebar" className={style.searchImage}></Image>
-                        </button>
+                        <div>
+                            <button className={style.searchIcon}>
+                                <Image src={search} alt="sidebar" className={style.searchImage}></Image>
+                            </button>
+                        </div>
+                    </div>
+                    <div className={style.searchResult}>
+                        {
+                            products.map((product: Product) => {
+                                return <div className={style.query}>{product.name}</div>
+                            })
+                        }
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import style from '@/pages/components/ShopUpperSetting.module.scss'
 import Link from 'next/link';
 
-export default function UpperSetting() {
+export default function ShopUpperSetting() {
 
     return (
         <div className={style.index}>

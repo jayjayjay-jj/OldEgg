@@ -14,6 +14,9 @@ func migrate() {
 	DB.AutoMigrate(&model.User{})
 	DB.AutoMigrate(&model.OneTimeCode{})
 	DB.AutoMigrate(&model.Shop{})
+	DB.AutoMigrate(&model.Category{})
+	DB.AutoMigrate(&model.Product{})
+	DB.AutoMigrate(&model.Voucher{})
 }
 
 func Connect() {

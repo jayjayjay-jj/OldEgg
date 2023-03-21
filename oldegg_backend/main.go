@@ -21,7 +21,7 @@ func main() {
 
 	router := gin.New()
 
-	route.UserRoute(router)
+	route.Route(router)
 
 	http.ListenAndServe(":8080", cors.New(options).Handler(router))
 }

@@ -74,3 +74,86 @@ func ShopSignIn(ctx *gin.Context) {
 
 	ctx.String(200, tokenString)
 }
+
+func ShopAuthenticate(ctx *gin.Context) {
+	currShop, _ := ctx.Get("currentShop")
+
+	ctx.JSON(200, currShop)
+}
+
+func UpdateShopStatus(ctx *gin.Context) {
+	var shop model.Shop
+	config.DB.Where("id = ?", ctx.Param("id")).First(&shop)
+
+	if shop.Status == "Active" {
+		shop.Status = "Banned"
+	} else {
+		shop.Status = "Active"
+	}
+
+	config.DB.Save(&shop)
+	ctx.JSON(200, &shop)
+}
+
+func ShowAllShop(ctx *gin.Context) {
+	shops := []model.Shop{}
+	config.DB.Find(&shops)
+	ctx.JSON(200, &shops)
+}
+
+func ShowAllShopPagination(ctx *gin.Context) {
+
+	type RequestBody struct {
+		ShopPage  int `json:"shoppage"`
+		ShopLimit int `json:"shoplimit"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
+	offset := (body.ShopPage - 1) * body.ShopLimit
+
+	shops := []model.Shop{}
+	config.DB.Limit(body.ShopLimit).Offset(offset).Find(&shops)
+
+	ctx.JSON(200, &shops)
+}
+
+func ShowAllShopPaginationStatus(ctx *gin.Context) {
+
+	type RequestBody struct {
+		Status    string `json:"status"`
+		ShopPage  int    `json:"shoppage"`
+		ShopLimit int    `json:"shoplimit"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
+	offset := (body.ShopPage - 1) * body.ShopLimit
+
+	shops := []model.Shop{}
+
+	if body.Status == "" {
+		config.DB.Limit(body.ShopLimit).Offset(offset).Find(&shops)
+	} else {
+		config.DB.Where("status = ?", body.Status).Limit(body.ShopLimit).Offset(offset).Find(&shops)
+	}
+
+	ctx.JSON(200, &shops)
+}
+
+func GetShopById(c *gin.Context) {
+
+	type RequestBody struct {
+		ID int64 `json:"id"`
+	}
+
+	var requestBody RequestBody
+	c.ShouldBindJSON(&requestBody)
+
+	var shop model.Shop
+	config.DB.Model(model.Shop{}).Where("id = ?", requestBody.ID).First(&shop)
+
+	c.JSON(200, shop)
+}

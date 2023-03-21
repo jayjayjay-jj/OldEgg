@@ -9,15 +9,19 @@ import Navbar from '@/layout/navbar'
 import Footer from '@/layout/footer'
 import Carousel from '@/pages/components/Carousel'
 import LowerFooter from '@/layout/lowerFooter'
+import Shop from '@/types/Shop'
+import ShopNavbar from '@/layout/shopNavbar'
 
 export default function Home() {
 
   const [user, setUser] = useState<User>()
+  const [shop, setShop] = useState<Shop>()
+  const [role, setRole] = useState('');
 
   useEffect(() => {
     const getCurrentUser = async () => {
       const JWT = getCookie("AuthenticationCookie")
-      // console.log(JWT)
+      setRole(localStorage.getItem("role"))
 
       const token:JWT = {
         token_string: JWT
@@ -25,8 +29,6 @@ export default function Home() {
 
       // console.log(JWT)
       const user = await Authentication(token)
-      console.log(token)
-      console.log(user)
 
       if(user === 404) {
         alert("Server Error")
@@ -46,15 +48,16 @@ export default function Home() {
     return (
       <div className={style.index}>
         <header>
-          <Navbar />
+          {(role == "user") ? <Navbar /> : (role == "shop") ? <ShopNavbar /> : <Navbar />}
+          
         </header>
 
-        <body className={style.index}>
+        <div className={style.index}>
           <div>
             <Carousel />
           </div>
           <Link href='/account/sign-in'>Go to sign-in page</Link>
-        </body>
+        </div>
 
         <footer>
           <Footer />
