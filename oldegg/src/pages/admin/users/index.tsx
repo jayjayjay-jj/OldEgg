@@ -8,6 +8,9 @@ import style from "@/styles/admin/Users.module.scss"
 import { ThemeContext } from "@/pages/changer/themeChanger";
 import UpperSetting from "@/pages/components/UpperSetting";
 import ShowAllUserPaginate from "@/api/show-all-user-paginate";
+import ShopNavbar from "@/layout/shopNavbar";
+import Link from "next/link";
+import LowerNavbar from "@/layout/lowerNavbar";
 
 const AllUserPage = () => {
     const[users, setUsers] = useState([]);
@@ -15,13 +18,15 @@ const AllUserPage = () => {
     const[status, setStatus] = useState('');
 
     const[page, setPage] = useState(1)
-    const[limit, setLimit] = useState(5)
+    const[limit, setLimit] = useState(4)
     const[totalPage, setTotalPage] = useState(0)
 
     const router = useRouter();
     const {theme} = useContext(ThemeContext);
+    const[role, setRole] = useState('')
 
     useEffect(() => {        
+        setRole(localStorage.getItem('role'))
 
         const getUserPaginate = async() => {
             
@@ -39,6 +44,8 @@ const AllUserPage = () => {
             }
 
             setUsers(response)
+            console.log(users);
+            
             
             const total = Math.ceil(response.length / limit);
             setTotalPage(total);
@@ -97,11 +104,14 @@ const AllUserPage = () => {
 
     return ( 
         <div className={style.outer}>
-            <Navbar />
+            <header>
+                {(role == "user") ? <Navbar /> : (role == "shop") ? <ShopNavbar /> : <Navbar />}
+                <LowerNavbar />
+            </header>
 
-            <UpperSetting />
-
+            {(role == "user") ? 
             <div className={style.body} style={{ backgroundColor : theme.white_gray }}>
+                <UpperSetting />
                 <h2 className={style.title} style={{ color : theme.black_white, backgroundColor : theme.white_gray }}>
                     All Users
                 </h2>
@@ -140,7 +150,25 @@ const AllUserPage = () => {
 
                     <button className={style. button} onClick={onNextButtonClicked} style={{ backgroundColor : theme.gray_white }}>Next</button>
                 </div>
+            </div> 
+            :
+            <div className={style.title} style={{ backgroundColor: theme.white_gray }}>
+                <br></br>
+                <div className={style.title} style={{ color: theme.black_white }}>
+                    You are not authorized!
+                </div>
+
+                <div>   
+                    <br></br>
+                    <br></br>
+                    <button className={style.ban}>
+                        <Link className={style.link} href='/'>Home</Link>
+                    </button>
+                </div>
+                
+                <br></br>
             </div>
+            }  
             
             <Footer />
 

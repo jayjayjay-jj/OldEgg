@@ -15,6 +15,7 @@ import JWT from '@/types/JWTToken';
 import { ThemeContext } from '@/pages/changer/themeChanger';
 import Shop from '@/types/Shop';
 import ShopAuthentication from '@/api/shop-authentication';
+import axios from 'axios';
 
 export default function ShopNavbar() {
     const [shop, setShop] = useState<Shop>()
@@ -22,6 +23,7 @@ export default function ShopNavbar() {
 
     let signIn = 0
     let message = ""
+    const [city, setCity] = useState("");
 
     useEffect(() => {
         const getCurrentShop = async () => {
@@ -48,6 +50,15 @@ export default function ShopNavbar() {
         }
 
         getCurrentShop()
+
+        const getCurrentAddress = async () => {
+
+            const response = await axios.get('http://ip-api.com/json');
+            setCity(response.data.city);
+
+        }
+
+        getCurrentAddress();
     }, [])
 
     const handleChange = ((e: { target: { value: SetStateAction<string>; }; }) => {
@@ -77,7 +88,7 @@ export default function ShopNavbar() {
                         </div>
 
                         <div className={style.textSelection}>
-                            Select Address
+                            {city == "" ? "Select Address" : city}  
                         </div>
                     </div>
                 </div>

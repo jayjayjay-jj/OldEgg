@@ -48,7 +48,7 @@ const ChangePhoneNumber = () => {
         getCurrentUser()
     }, [])
 
-        const handleSubmit = async () => {
+    const handleSubmit = async () => {
 
         const response = await UpdateUserPhone(user.ID, phoneNumber);
         if (response == 404) alert("Something Went Wrong");

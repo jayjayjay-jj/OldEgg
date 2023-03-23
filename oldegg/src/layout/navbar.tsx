@@ -136,7 +136,11 @@ export default function Navbar() {
                     <div className={style.searchResult}>
                         {
                             products.map((product: Product) => {
-                                return <div className={style.query}>{product.name}</div>
+                                return (
+                                <div className={style.query} style={{ backgroundColor: theme.lightBlue_darkBlue }}>
+                                    {product.name}
+                                </div>
+                                )
                             })
                         }
                     </div>

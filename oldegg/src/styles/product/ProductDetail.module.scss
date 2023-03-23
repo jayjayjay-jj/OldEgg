@@ -1,0 +1,117 @@
+.index {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: auto;
+    height: auto;
+    padding: 15px 25px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.banned {
+    display: flex;
+    justify-content: center;
+    padding: 30px 0px;
+    font-size: 25px;
+}
+
+.left {
+    border: 1px solid black;
+}
+
+.image {
+    height: 250px;
+    width: 350px;
+    padding: 10px;
+}
+
+.right {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    position: relative;
+    gap: 10px;
+}
+
+.name {
+    font-size: 28px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+.price {
+    padding-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.stock {
+    align-items: center;
+    justify-items: center;
+}
+
+.count {
+    padding: 10px 0px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.plusminusButton {
+    width: 30px;
+    height: 30px;
+    background-color: #ffa33a;
+    border: 1px solid #d60;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.plusminusBox {
+    width: 45px;
+    height: 30px;
+    color: #606060;
+    font-size: 15px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background: transparent;
+    box-sizing: border-box;
+    border: 1px solid #d9d9d9;
+}
+
+.body {
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 10px 20px;
+}
+
+.desc {
+    font-size: 10px;
+}
+
+.out {
+    color: red;
+    font-weight: bold;
+}
+
+.detailTitle {
+    flex-wrap: wrap;
+    font-weight: bold;
+}
+
+.buttonBox {
+    justify-content: right;
+    margin: 20px 0px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px
+}
+
+.productButton {
+    width: 150px;
+    height: 44px;
+    background-color: #ffa33a;
+    border: 1px solid #d60;
+    // font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 17px;
+    font-weight: bold;
+}

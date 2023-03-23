@@ -31,6 +31,87 @@ func GetProductByShop(ctx *gin.Context) {
 	ctx.JSON(200, &product)
 }
 
+func GetProductByShopStatus(ctx *gin.Context) {
+
+	type RequestBody struct {
+		ID int64 `json:"id"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
+	var product []model.Product
+	config.DB.
+		Table("shops").
+		Select("*").
+		Joins("join products on products.shop_id = shops.id").
+		Where("products.id = ?", body.ID).
+		Where("shops.status = ?", "Active").
+		Find(&product)
+
+	ctx.JSON(200, &product)
+}
+
+func GetProductCount(ctx *gin.Context) {
+
+	type RequestBody struct {
+		ShopName string `json:"shop_name"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
+	var count int64
+	config.DB.
+		Table("shops").
+		Select("*").
+		Joins("join products on products.shop_id = shops.id").
+		Where("products.shop_id = shops.id").
+		Where("shops.name = ?", body.ShopName).
+		Count(&count)
+
+	ctx.JSON(200, &count)
+}
+
+func ShowAllProducts(ctx *gin.Context) {
+	products := []model.Product{}
+	config.DB.Find(&products)
+	ctx.JSON(200, &products)
+}
+
+func ShowAllProductsPagination(ctx *gin.Context) {
+
+	type RequestBody struct {
+		ProductPage  int `json:"productpage"`
+		ProductLimit int `json:"productlimit"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
+	offset := (body.ProductPage - 1) * body.ProductLimit
+
+	var product []model.Product
+	config.DB.Limit(body.ProductLimit).Offset(offset).Find(&product)
+
+	ctx.JSON(200, &product)
+}
+
+func ShowHomeProductsPagination(ctx *gin.Context) {
+
+	type RequestBody struct {
+		ProductPage int `json:"productpage"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
+	var product []model.Product
+	config.DB.Limit(9).Find(&product)
+
+	ctx.JSON(200, &product)
+}
+
 func ShowProductByShopPagination(ctx *gin.Context) {
 
 	type RequestBody struct {
@@ -76,6 +157,75 @@ func ShowProductByShopPaginationStock(ctx *gin.Context) {
 	}
 
 	ctx.JSON(200, &product)
+}
+
+func ShowProductByShopNamePaginationStock(ctx *gin.Context) {
+
+	type RequestBody struct {
+		ShopName     string `json:"shop_name"`
+		StockStatus  string `json:"stock_status"`
+		ProductPage  int    `json:"productpage"`
+		ProductLimit int    `json:"productlimit"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
+	offset := (body.ProductPage - 1) * body.ProductLimit
+
+	var product []model.Product
+	if body.StockStatus == "All" {
+		config.DB.
+			Table("shops").
+			Select("*").
+			Joins("join products on products.shop_id = shops.id").
+			Where("products.shop_id = shops.id").
+			Where("shops.name = ?", body.ShopName).
+			Limit(body.ProductLimit).
+			Offset(offset).
+			Find(&product)
+
+	} else if body.StockStatus == "Available" {
+		config.DB.
+			Table("shops").
+			Select("*").
+			Joins("join products on products.shop_id = shops.id").
+			Where("products.shop_id = shops.id").
+			Where("shops.name = ?", body.ShopName).
+			Where("stock != ?", 0).
+			Limit(body.ProductLimit).
+			Offset(offset).
+			Find(&product)
+
+	} else if body.StockStatus == "Out of Stock" {
+		config.DB.
+			Table("shops").
+			Select("*").
+			Joins("join products on products.shop_id = shops.id").
+			Where("products.shop_id = shops.id").
+			Where("shops.name = ?", body.ShopName).
+			Where("stock = ?", 0).
+			Limit(body.ProductLimit).
+			Offset(offset).
+			Find(&product)
+	}
+
+	ctx.JSON(200, &product)
+}
+
+func GetProductsById(c *gin.Context) {
+
+	type RequestBody struct {
+		ID int64 `json:"id"`
+	}
+
+	var requestBody RequestBody
+	c.ShouldBindJSON(&requestBody)
+
+	var product model.Product
+	config.DB.Model(model.Product{}).Where("id = ?", requestBody.ID).First(&product)
+
+	c.JSON(200, &product)
 }
 
 func SearchProduct(c *gin.Context) {

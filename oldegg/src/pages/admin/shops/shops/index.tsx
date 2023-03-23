@@ -9,6 +9,8 @@ import ShopUpperSetting from "@/pages/components/ShopUpperSetting";
 import UpdateShopStatus from "@/api/update-shop-status";
 import ShowAllShopPaginate from "@/api/show-all-shop-paginate";
 import ShowShopByStatus from "@/api/get-shop-by-status";
+import ShopNavbar from "@/layout/shopNavbar";
+import Link from "next/link";
 
 const AllUserPage = () => {
     const[shops, setShops] = useState([]);
@@ -18,10 +20,14 @@ const AllUserPage = () => {
     const {theme} = useContext(ThemeContext);
 
     const[page, setPage] = useState(1)
-    const[limit, setLimit] = useState(5)
+    const[limit, setLimit] = useState(4)
     const[totalPage, setTotalPage] = useState(0)
+    const[role, setRole] = useState('')
 
     useEffect(() => {
+        setRole(localStorage.getItem("role"))   
+        console.log(role);
+
         const getShopByStatus = async () => {            
             const response = await ShowShopByStatus(status, page, limit);
 
@@ -86,69 +92,109 @@ const AllUserPage = () => {
         setPage(page + 1);
     }
 
-    return ( 
-        <div className={style.outer}>
-            <Navbar />
+
+    return (
+    <div>
+    {(role == "user") ? 
+        <div>
+            <div className={style.outer}>
+                <header>
+                    {(role == "user") ? <Navbar /> : (role == "shop") ? <ShopNavbar /> : <Navbar />}
+                </header>
 
 
-            <div className={style.body} style={{ backgroundColor : theme.white_gray }}>
-                <h2 className={style.title} style={{ color : theme.black_white, backgroundColor : theme.white_gray }}>
-                    All Shops
-                </h2>
-            
-                <ShopUpperSetting />
+                <div className={style.body} style={{ backgroundColor : theme.white_gray }}>
+                    <ShopUpperSetting />
 
-                <div className={style.shopFilter}>
-                    <button onClick={(e) => setStatus("")}>All</button>
+                    <br></br>
 
-                    <button name="checkbox" onClick={() => setStatus("Active")}>Active</button>
+                    <h2 className={style.title} style={{ color : theme.black_white, backgroundColor : theme.white_gray }}>
+                        All Shops
+                    </h2>
 
-                    <button name="checkbox" onClick={() => setStatus("Banned")}>Banned
-                    </button>
-                </div>
+                    <div className={style.shopFilter}>
+                        <button className={style.filterButton} onClick={(e) => setStatus("")}>All</button>
 
-                <div className={style.index}>
+                        <button className={style.filterButton} name="checkbox" onClick={() => setStatus("Active")}>Active</button>
 
-                    {
-                        shops.map((shop: any) => {
-                            return (
-                                <form className={style.userCard} style={{ backgroundColor : theme.lightBlue_darkBlue }}>
-                                    <div onClick={() => goToDetail(shop.ID)} > 
-                                        <div className={style.userName}>
-                                            {shop.name}
-                                        </div>
-
-                                        <div className={style.email}>
-                                            {shop.email}
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        {shop.status == "Active" ? 
-                                        <button className={style.ban} onClick={() => banShop(shop.ID)}>Ban Shop</button> :
-                                        <button className={style.unban} onClick={() => unbanShop(shop.ID)}>Unban Shop</button>}
-                                    </div>
-                                </form>
-                        )})
-                    }
-                </div>
-
-                <div className={style.paginateButton}>
-                    <button className={style.button} onClick={onPrevButtonClicked} style={{ backgroundColor : theme.gray_white }}>Prev</button>
-
-                    <div style={{ color : theme.black_white }}>
-                        {page}
+                        <button className={style.filterButton} name="checkbox" onClick={() => setStatus("Banned")}>Banned
+                        </button>
                     </div>
 
-                    <button className={style. button} onClick={onNextButtonClicked} style={{ backgroundColor : theme.gray_white }}>Next</button>
-                </div>
-            </div>
-            
-            <Footer />
+                    <div className={style.index}>
 
-            <LowerFooter />
+                        {
+                            shops.map((shop: any) => {
+                                return (
+                                    <form className={style.userCard} style={{ backgroundColor : theme.lightBlue_darkBlue }}>
+                                        <div onClick={() => goToDetail(shop.ID)} > 
+                                            <div className={style.userName}>
+                                                {shop.name}
+                                            </div>
+
+                                            <div className={style.email}>
+                                                {shop.email}
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            {shop.status == "Active" ? 
+                                            <button className={style.ban} onClick={() => banShop(shop.ID)}>Ban Shop</button> :
+                                            <button className={style.unban} onClick={() => unbanShop(shop.ID)}>Unban Shop</button>}
+                                        </div>
+                                    </form>
+                            )})
+                        }
+                    </div>
+
+                    <div className={style.paginateButton}>
+                        <button className={style.button} onClick={onPrevButtonClicked} style={{ backgroundColor : theme.gray_white }}>Prev</button>
+
+                        <div style={{ color : theme.black_white }}>
+                            {page}
+                        </div>
+
+                        <button className={style. button} onClick={onNextButtonClicked} style={{ backgroundColor : theme.gray_white }}>Next</button>
+                    </div>
+                </div>
+                
+                <footer>
+                    <Footer />
+                    <LowerFooter />
+                </footer>
+            </div>
         </div>
-    );
+    : 
+        <div className={style.outer}>
+            <header>
+                {(role == "user") ? <Navbar /> : (role == "shop") ? <ShopNavbar /> : <Navbar />}
+            </header>
+
+            <div className={style.title} style={{ backgroundColor: theme.white_gray }}>
+                <br></br>
+                <div className={style.title} style={{ color: theme.black_white }}>
+                    You are not authorized!
+                </div>
+
+                <div>   
+                    <br></br>
+                    <br></br>
+                    <button className={style.ban}>
+                        <Link className={style.link} href='/'>Home</Link>
+                    </button>
+                </div>
+                
+                <br></br>
+            </div>
+
+            <footer>
+                <Footer />
+                <LowerFooter />
+            </footer>
+        </div>
+    }
+    </div>
+    )
 }
 
 export default AllUserPage;

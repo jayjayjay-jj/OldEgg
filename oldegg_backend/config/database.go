@@ -17,6 +17,8 @@ func migrate() {
 	DB.AutoMigrate(&model.Category{})
 	DB.AutoMigrate(&model.Product{})
 	DB.AutoMigrate(&model.Voucher{})
+	DB.AutoMigrate(&model.WishlistHeader{})
+	DB.AutoMigrate(&model.WishlistDetail{})
 }
 
 func Connect() {

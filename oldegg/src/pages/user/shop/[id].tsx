@@ -5,10 +5,10 @@ import Navbar from "@/layout/navbar";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import style from '@/styles/shop/ShopDetail.module.scss'
-import { ThemeContext } from "../changer/themeChanger";
 import getProductByStock from "@/api/get-products-by-stock";
+import { ThemeContext } from "@/pages/changer/themeChanger";
 
-const ShopDetailPage = () => {
+const UserShopDetailPage = () => {
     
     const router = useRouter();
     const [shopID, setShopID] = useState<any>();
@@ -24,7 +24,9 @@ const ShopDetailPage = () => {
     const[totalPage, setTotalPage] = useState(0)
     
     useEffect(() => {
+
         setShopID(router.query.id);
+
     }, [router.query.id]);
 
     useEffect(() => {
@@ -69,10 +71,6 @@ const ShopDetailPage = () => {
     }, [shopID, stock, page, limit]);
 
     if (!shop || Object.keys(shop).length == 0) return <div>Loading ...</div>
-
-    const goToDetail = (id: Number) => {
-        router.push('/shop/products/' + id);
-    }
 
     const onPrevButtonClicked = () => {
 
@@ -126,7 +124,6 @@ const ShopDetailPage = () => {
 
                     <div className={style.index}>
                         {
-                            (products.length === 0) ? "No products" : 
                             products.map((product: any) => {
                                 return (
                                     <form className={style.productCard} style={{ backgroundColor : theme.white_gray }}>
@@ -135,7 +132,7 @@ const ShopDetailPage = () => {
                                                 <img src={product.image} className={style.image}/>
                                             </div>
 
-                                            <div className={style.name} style={{ color: theme.darkBlue_lightBlue }} onClick={() => goToDetail(product.ID)}>
+                                            <div className={style.name} style={{ color: theme.darkBlue_lightBlue }}>
                                                 {product.name}
                                             </div>
 
@@ -155,6 +152,11 @@ const ShopDetailPage = () => {
 
                 <div className={style.paginateButton}>
                     <button className={style.button} onClick={onPrevButtonClicked} style={{ backgroundColor : theme.gray_white }}>Prev</button>
+
+                    {/* <div style={{ color : theme.black_white }}>
+                        {page}
+                    </div> */}
+
                     <button className={style.button} onClick={onNextButtonClicked} style={{ backgroundColor : theme.gray_white }}>Next</button>
                 </div>
             </div>
@@ -167,4 +169,4 @@ const ShopDetailPage = () => {
     );
 }
 
-export default ShopDetailPage;
+export default UserShopDetailPage;

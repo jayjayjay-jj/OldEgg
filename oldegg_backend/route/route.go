@@ -35,11 +35,26 @@ func Route(router *gin.Engine) {
 	router.POST("/update-shop-status/:id", controller.UpdateShopStatus)
 
 	router.POST("/insert-product", controller.InsertProduct)
+	router.POST("/get-product-by-id", controller.GetProductsById)
 	router.POST("/get-product-by-shop", controller.GetProductByShop)
+	router.POST("/get-product-by-shop-status", controller.GetProductByShopStatus)
+	router.POST("/get-product-count", controller.GetProductCount)
+	router.GET("/show-all-product", controller.ShowAllProducts)
+	router.POST("/show-all-product-paginate", controller.ShowAllProductsPagination)
+	router.POST("/show-home-product-scrolling", controller.ShowHomeProductsPagination)
 	router.POST("/show-product-by-shop-paginate", controller.ShowProductByShopPagination)
 	router.POST("/show-product-paginate-stock", controller.ShowProductByShopPaginationStock)
+	router.POST("/show-product-by-shop-name-paginate-stock", controller.ShowProductByShopNamePaginationStock)
 	router.POST("/search-product", controller.SearchProduct)
 
 	router.POST("/insert-voucher", controller.InsertVoucher)
 	router.GET("/show-all-voucher", controller.ShowAllVoucher)
+
+	router.GET("/show-all-categories", controller.ShowAllCategories)
+
+	router.POST("/create-wishlist", controller.CreateWishlist)
+	router.GET("/show-all-wishlist", controller.ShowAllWishlists)
+	router.POST("/get-wishlist-by-id", controller.GetWishlistById)
+	router.POST("/get-wishlist-by-user-id", controller.GetWishlistByUserId)
+	router.POST("/update-wishlist-header", controller.UpdateWishlistHeader)
 }

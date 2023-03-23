@@ -157,3 +157,18 @@ func GetShopById(c *gin.Context) {
 
 	c.JSON(200, shop)
 }
+
+func GetShopByName(c *gin.Context) {
+
+	type RequestBody struct {
+		name string `json:"name"`
+	}
+
+	var requestBody RequestBody
+	c.ShouldBindJSON(&requestBody)
+
+	var shop model.Shop
+	config.DB.Model(model.Shop{}).Where("name = ?", requestBody.name).First(&shop)
+
+	c.JSON(200, shop)
+}
