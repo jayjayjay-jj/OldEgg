@@ -15,14 +15,13 @@ import ShopNavbar from "@/layout/shopNavbar";
 import ShopAuthentication from "@/api/shop-authentication";
 import Shop from "@/types/Shop";
 import getProductByShopNameStock from "@/api/get-products-by-shop-and-stock-paginate";
-import getShopByName from "@/api/get-shop-by-name";
 import GetProductCount from "@/api/get-product-count";
 
 const AccountSettingsPage = () => {
     const[user, setUser] = useState<User>()
     const[shop, setShop] = useState<Shop>()
     const[role, setRole] = useState('');
-    const route = useRouter() 
+    const router = useRouter() 
 
     const[name, setName] = useState('')
     const[count, setCount] = useState()
@@ -68,7 +67,6 @@ const AccountSettingsPage = () => {
     useEffect(() => {
         const getCurrentShop = async () => {
             
-
             const JWT = getCookie("AuthenticationCookie")
             setRole(localStorage.getItem("role"))
 
@@ -153,11 +151,15 @@ const AccountSettingsPage = () => {
         )
     }
 
+    const goToDetail = (id: Number) => {
+        router.push('/shop/products/' + id);
+    }
+
     const onFormSubmitted = async (e:any) => {
         e.preventDefault();
 
         document.cookie = "AuthenticationCookie" + "=; " + "expires= expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-        route.push("/")
+        router.push("/")
     }
 
     const { theme } = useContext(ThemeContext);
@@ -242,7 +244,7 @@ const AccountSettingsPage = () => {
                                                     <img src={product.image} className={style.image}/>
                                                 </div>
 
-                                                <div className={style.productName} style={{ color: theme.darkBlue_lightBlue }}>
+                                                <div className={style.productName} style={{ color: theme.darkBlue_lightBlue }} onClick={() => goToDetail(product.ID)}>
                                                     {product.name}
                                                 </div>
                                                 <div className={style.productPrice} style={{ color: theme.black_white }}>

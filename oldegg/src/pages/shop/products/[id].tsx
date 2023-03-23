@@ -13,6 +13,7 @@ import JWT from "@/types/JWTToken";
 import Authentication from "@/api/authentication";
 import User from "@/types/User";
 import LowerNavbar from "@/layout/lowerNavbar";
+import Link from "next/link";
 
 const UserDetailPage = () => {
     const router = useRouter();
@@ -113,7 +114,6 @@ const UserDetailPage = () => {
                     </div>
 
                     <div className={style.right}>
-                        {user.ID}
                         <div className={style.name}>
                             {product.name}
                         </div>
@@ -131,16 +131,27 @@ const UserDetailPage = () => {
                                 <div>
                                     Stock : {product.stock}
 
-                                    <div className={style.count}>
-                                        <button onClick={decrementCount} className={style.plusminusButton}>-</button>
-                                        <input type="number" value={count} onChange={(e:any) => setCount(e.target.value)} className={style.plusminusBox} />
-                                        <button onClick={incrementCount} className={style.plusminusButton}>+</button>
+                                    {(role == "user") ? 
+                                    <div>
+                                        <div className={style.count}>
+                                            <button onClick={decrementCount} className={style.plusminusButton}>-</button>
+                                            <input type="number" value={count} onChange={(e:any) => setCount(e.target.value)} className={style.plusminusBox} />
+                                            <button onClick={incrementCount} className={style.plusminusButton}>+</button>
+                                        </div>
+                                        
+                                        <div className={style.buttonBox}>
+                                            <button className={style.productButton}>+ WishList</button>
+                                            <button className={style.productButton}>+ Cart</button>
+                                        </div>
                                     </div>
-
-                                    <div className={style.buttonBox}>
-                                        <button className={style.productButton}>+ WishList</button>
-                                        <button className={style.productButton}>+ Cart</button>
+                                    :
+                                    <div>
+                                        <br></br>
+                                        <button className={style.button}>
+                                            <Link href="/" className={style.buttonLink}>Update Product</Link>
+                                        </button>
                                     </div>
+                                    }
                                 </div>
                                 :
                                 <div className={style.out}>

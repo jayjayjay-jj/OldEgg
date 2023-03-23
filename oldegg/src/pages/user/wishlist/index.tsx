@@ -6,6 +6,7 @@ import Navbar from "@/layout/navbar";
 import ShopNavbar from "@/layout/shopNavbar";
 import { ThemeContext } from "@/pages/changer/themeChanger";
 import style from '@/styles/wishlist/WishlistHeader.module.scss'
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 
@@ -62,6 +63,10 @@ const ViewAllWishlists = () => {
                                     <div className={style.carStatus}>
                                         Status: {wishlist.wishlist_status}
                                     </div>
+
+                                    <button className={style.button}>
+                                        <Link href={"/user/wishlist/update-wishlist-header/" + wishlist.ID} className={style.buttonLink}>Update Wishlist</Link>
+                                    </button>
                                 </div>
                             )
                         }

@@ -152,7 +152,7 @@ const ShopDetailPage = () => {
                         }
                     </div>
                 </div>
-
+                            
                 <div className={style.paginateButton}>
                     <button className={style.button} onClick={onPrevButtonClicked} style={{ backgroundColor : theme.gray_white }}>Prev</button>
                     <button className={style.button} onClick={onNextButtonClicked} style={{ backgroundColor : theme.gray_white }}>Next</button>

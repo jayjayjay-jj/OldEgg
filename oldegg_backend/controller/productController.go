@@ -244,5 +244,35 @@ func SearchProduct(c *gin.Context) {
 	config.DB.Model(model.Product{}).Where("name ILIKE ?", "%"+body.Keyword+"%").Limit(5).Find(&products)
 
 	c.JSON(200, products)
+}
 
+func UpdateProduct(ctx *gin.Context) {
+
+	type RequestBody struct {
+		ProductID   uint   `json:"product_id"`
+		Name        string `json:"name"`
+		Category    int64  `json:"category"`
+		Image       string `json:"image"`
+		Description string `json:"description"`
+		Price       int64  `json:"price"`
+		Stock       int64  `json:"stock"`
+		Details     string `json:"details"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
+	var product model.Product
+	config.DB.Model(model.Product{}).Where("id = ?", body.ProductID).First(&product)
+
+	product.Name = body.Name
+	product.Category = int(body.Category)
+	product.Image = body.Image
+	product.Description = body.Description
+	product.Price = int(body.Price)
+	product.Stock = int(body.Stock)
+	product.Details = body.Details
+
+	config.DB.Save(&product)
+	ctx.JSON(200, product)
 }

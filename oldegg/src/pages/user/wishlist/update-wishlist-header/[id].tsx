@@ -41,6 +41,7 @@ const ShopDetailPage = () => {
         if (response == 404) alert("Something Went Wrong");
         else {
             alert('Wishlist updated!');
+            router.push("/user/wishlist")
         }
 
     };

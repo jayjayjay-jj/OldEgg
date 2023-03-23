@@ -46,6 +46,7 @@ func Route(router *gin.Engine) {
 	router.POST("/show-product-paginate-stock", controller.ShowProductByShopPaginationStock)
 	router.POST("/show-product-by-shop-name-paginate-stock", controller.ShowProductByShopNamePaginationStock)
 	router.POST("/search-product", controller.SearchProduct)
+	router.POST("/update-product", controller.UpdateProduct)
 
 	router.POST("/insert-voucher", controller.InsertVoucher)
 	router.GET("/show-all-voucher", controller.ShowAllVoucher)
