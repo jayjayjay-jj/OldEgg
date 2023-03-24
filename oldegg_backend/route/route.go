@@ -41,6 +41,9 @@ func Route(router *gin.Engine) {
 	router.POST("/get-shop-categories", controller.GetShopCategories)
 	router.POST("/update-shop-password", controller.UpdateShopPassword)
 
+	router.POST("/get-shop-desc-by-shop", controller.GetShopDescByShop)
+	router.POST("/update-shop-desc", controller.UpdateShopDesc)
+
 	router.POST("/insert-product", controller.InsertProduct)
 	router.POST("/get-product-by-id", controller.GetProductsById)
 	router.POST("/get-product-by-shop", controller.GetProductByShop)
@@ -78,6 +81,7 @@ func Route(router *gin.Engine) {
 	router.POST("/get-wishlist-details", controller.GetDetailsByID)
 	router.POST("/update-wishlist-details", controller.UpdateDetailQuantity)
 	router.POST("/delete-wishlist-details", controller.DeleteDetailItem)
+	router.POST("/count-shop-order-quantity", controller.CountShopOrder)
 
 	router.POST("/insert-product-to-cart", controller.InsertProductToCart)
 	router.POST("/show-user-cart", controller.GetCartByUserId)
@@ -108,4 +112,7 @@ func Route(router *gin.Engine) {
 	router.POST("/update-order-status/:id", controller.UpdateOrderStatus)
 
 	router.POST("/send-newsletter", controller.SendNewsletter)
+
+	router.POST("/insert-comment", controller.InsertComment)
+	router.POST("/show-comment", controller.ShowAllWishlistComment)
 }

@@ -10,6 +10,8 @@ import getProductByStock from "@/api/get-products-by-stock";
 import LowerNavbar from "@/layout/lowerNavbar";
 import ShopNavbar from "@/layout/shopNavbar";
 import getShopByCategories from "@/api/get-shop-categories";
+import getShopDesc from "@/api/get-shop-desc-by-shop-id";
+import getOrderDetailsByShop from "@/api/get-order-detail-by-shop";
 
 const ShopDetailPage = () => {
     
@@ -23,10 +25,15 @@ const ShopDetailPage = () => {
     const [role, setRole] = useState('')
     const [categories, setCategories] = useState<any>()
     const [products, setProducts] = useState<any>();
+    const [descs, setDescs] = useState<any>()
+    const [details, setDetails] = useState<any>()
+    const [detailsQuantity, setDetailsQuantity] = useState<any>()
 
     const [page, setPage] = useState(1)
     const [limit, setLimit] = useState(50)
     const [totalPage, setTotalPage] = useState(0)
+
+    let initQuan = 0
     
     useEffect(() => {
         setShopID(router.query.id);
@@ -52,8 +59,6 @@ const ShopDetailPage = () => {
             
             const response = await getProductByStock(shopID, stock, page, limit);
 
-            console.log(response);
-
             if(response === 404) {
                 alert("Something went wrong!")
             }
@@ -74,7 +79,6 @@ const ShopDetailPage = () => {
 
         const getShopCategories = async() => {
             const response = await getShopByCategories(shopID);
-            console.log(response);
 
             if(response === 404) {
                 alert("Something wengwong")
@@ -84,12 +88,54 @@ const ShopDetailPage = () => {
         }
 
         getShopCategories();
-        console.log(categories);
         
-
     }, [shopID, stock, page, limit, products]);
 
-    if (!categories || !shop || Object.keys(shop).length == 0) return <div>Loading ...</div>
+    useEffect(() => {
+
+        const getAllDesc = async () => {
+            const response = await getShopDesc(shopID)
+
+            if(response === 404) {
+                alert("weng wong lagi kan")
+            }
+
+            setDescs(response)
+        }
+
+        getAllDesc()
+
+        const getOrderDetail = async () => {
+            const response = await getOrderDetailsByShop(shopID)
+
+            if(response === 404) {
+                alert(":P")
+            }
+
+            setDetails(response)
+            console.log(response);
+            
+        }
+
+        getOrderDetail()
+        
+
+    }, [shopID])
+
+    useEffect(() => {
+
+        if(details) {
+            details.forEach((detail:any) => {
+                console.log(detail.quantity);
+                
+                initQuan += detail.quantity
+                setCount(initQuan)
+            })
+        }
+
+    }, [descs])
+
+    if (!descs || !categories || !shop || Object.keys(shop).length == 0) return <div>Loading ...</div>
 
     const goToDetail = (id: Number) => {
         router.push('/shop/products/' + id);
@@ -134,13 +180,13 @@ const ShopDetailPage = () => {
                         <div className={style.left}>
                             Categories: 
                             {
-                                (categories.map((category: any) => {
+                                categories && categories.map((category: any) => {
                                     return (
                                         <div className={style.categories}>
                                             {category.category_name}
                                         </div>
                                     )
-                                }))
+                                })
                             }
                         </div>
 
@@ -191,6 +237,32 @@ const ShopDetailPage = () => {
                 <div className={style.paginateButton}>
                     <button className={style.button} onClick={onPrevButtonClicked} style={{ backgroundColor : theme.gray_white }}>Prev</button>
                     <button className={style.button} onClick={onNextButtonClicked} style={{ backgroundColor : theme.gray_white }}>Next</button>
+                </div>
+
+                <div className={style.lowerBody}>
+                    <div className={style.lowerTitle}>
+                        Shop About Us
+                    </div>
+
+                    <hr></hr>
+
+                    <div className={style.lowerCont}>
+                        {descs && descs.map((desc: any) => {
+                            return (
+                                <div className={style.lowerText}>
+                                    {desc.desc}
+                                </div>
+                            )
+                        })}
+                    </div>
+
+                    <br></br>
+                    
+                    <div className={style.lowerText}>
+                        Number of Sales: {count}
+                    </div>
+                    
+                    <br></br>
                 </div>
             </div>
 

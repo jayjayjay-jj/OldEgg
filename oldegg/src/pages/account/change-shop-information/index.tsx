@@ -15,53 +15,18 @@ import 'firebase/firestore';
 import { getFirestore } from "firebase/firestore";
 import ShopNavbar from "@/layout/shopNavbar";
 import LowerNavbar from "@/layout/lowerNavbar";
-
-// firebase config here 
-const firebaseConfig = {
-    apiKey: "AIzaSyAXFxgRVIZXPztWLmq_xSFm7J_3m-uH5eI",
-    authDomain: "test-ef6c0.firebaseapp.com",
-    projectId: "test-ef6c0",
-    storageBucket: "test-ef6c0.appspot.com",
-    messagingSenderId: "134767382712",
-    appId: "1:134767382712:web:94989969ca5ab737be244d",
-    measurementId: "G-RTLJ5XCEYY"
-};
-
-const app = initializeApp(firebaseConfig)
-const storage = getStorage(app);
-export const db = getFirestore(app)
-
-export function handleFileUpload(file:any) {
-    return new Promise((resolve, reject) => {
-
-        const storageRef = ref(storage, `images/${file.name}`);
-
-        uploadBytes(storageRef, file).then(() => {
-            console.log("File uploaded successfully");
-
-            getDownloadURL(storageRef).then((url:any) => {
-    
-                resolve(url);
-                console.log(url);
-                
-                
-            }).catch((error:any) => {
-                    console.error(error);
-                    reject(error);
-            });
-        }).catch((error:any) => {
-            console.error(error);
-            reject(error);
-        });
-    });
-}
-
+import getShopDesc from "@/api/get-shop-desc-by-shop-id";
+import UpdateShopDesc from "@/api/update-shop-desc";
 const ChangeShopPersonal = () => {
-    const[shop, setShop] = useState<any>()
-    const[role, setRole] = useState("")
+    const [shop, setShop] = useState<any>()
+    const [role, setRole] = useState("")
 
-    const[name, setName] = useState('')
-    const[url, setUrl] = useState('')
+    const [name, setName] = useState('')
+    const [id, setId] = useState()
+    const [newDesc, setNewDesc] = useState('')
+    const [desc, setDesc] = useState('')
+    const [descs, setDescs] = useState<any>()
+    const [url, setUrl] = useState('')
     const router = useRouter()
 
     let signIn = 0
@@ -90,24 +55,34 @@ const ChangeShopPersonal = () => {
                 signIn = 100
                 setShop(shop)
                 setName(shop.name)
+                setId(shop.ID)
             }
         }
         
         getCurrentShop()
     }, [])
 
-    async function handleFileChange(event:any) {
-        const file = event.target.files[0];
-        var files = await handleFileUpload(file);
-        setUrl(files)
-    }
+    useEffect(() => {
+        
+        const getAllDesc = async () => {
+            const response = await getShopDesc(Number(id))
+
+            if(response === 404) {
+                alert("Wengwong")
+            }
+
+            setDescs(response)
+        }
+
+        getAllDesc()
+
+    }, [id])
 
     const handleSubmit = async () => {
 
-        const response = await UpdateShopInformation(shop.ID, name, url);
+        const response = await UpdateShopDesc(Number(desc), shop.ID, newDesc);
         if (response == 404) alert("Something Went Wrong");
         else {
-
             alert('Shop Information Updated!');
             router.push('/account/settings');
 
@@ -125,24 +100,35 @@ const ChangeShopPersonal = () => {
             <div className={style.index}>
 
                 <div className={style.title}>
-                    Change Shop Name and Banner
+                    Change Shop About Us
                 </div>
 
                 <br></br>
 
+                {(id === shop.ID) ?
                 <div>
-                
-                </div>
+                    <div>
+                        <select className={style.selection} onChange={(e) => {setDesc(e.target.value)}}>
+                            {descs && descs.map((desc: any) => {
+                                return (
+                                    <option value={desc.ID}>{desc.desc}</option>
+                                    )
+                                })}
+                        </select>
+                        
+                        <br></br>
+                        
+                        <RectangularInputField required value={newDesc} onChange={setNewDesc} placeholder="Insert New Desc here"/>
+                    </div>
 
+                    <br></br>
+                    <button className={style.insertButton} onClick={() => handleSubmit(desc)}>Change Shop Description</button>
+                </div>
+                :
                 <div>
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} className={style.inputField} placeholder={name}/>
+                    You're not authorized!!!
                 </div>
-
-                <br></br>
-                <input type="file" onChange={handleFileChange}  />
-
-                <br></br>
-                <button className={style.insertButton} onClick={() => handleSubmit(shop?.ID)}>Change Shop Information</button>
+                }
             </div>
 
             <footer>

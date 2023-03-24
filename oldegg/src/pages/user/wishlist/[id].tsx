@@ -16,6 +16,9 @@ import ShopNavbar from "@/layout/shopNavbar";
 import DeleteWishlistDetails from "@/api/delete-wishlist-details";
 import RectangularInputField from "@/pages/components/RectangularInputField";
 import UpdateWishlistNote from "@/api/update-wishlist-note";
+import getWishlistComments from "@/api/show-all-wishlist-comment";
+import Comment from "@/types/Comment";
+import AddNewComment from "@/api/insert-new-comment";
 
 const ShopDetailPage = () => {
     const router = useRouter();
@@ -23,10 +26,15 @@ const ShopDetailPage = () => {
     const [count, setCount] = useState(0)
     const [role, setRole] = useState('')
 
+    const [uid, setUid] = useState()
+    const [wid, setWid] = useState()
+
     const [userID, setUserID] = useState()
     const [productID, setProductID] = useState()
     const [note, setNote] = useState('')
     const [wishlistNote, setWishlistNote] = useState('')
+    const [type, setType] = useState('anonymus')
+    const [comment, setComment] = useState('')
 
     const [user, setUser] = useState<any>();
     const [header, setHeader] = useState<any>()
@@ -34,6 +42,8 @@ const ShopDetailPage = () => {
     const [wishlist, setWishlist] = useState<any>();
     const [wishlistProducts, setWishlistProducts] = useState<any>()
     const [wishlistDetails, setWishlistDetails] = useState<any>()
+    const [comments, setComments] = useState<any>()
+    const [users, setUsers] = useState<any>()
     
     useEffect(() => {
         setWishlistID(router.query.id);
@@ -58,7 +68,7 @@ const ShopDetailPage = () => {
 
             } else {
                 setUser(user)
-
+                setUid(user.ID)
             }
         }
 
@@ -70,12 +80,12 @@ const ShopDetailPage = () => {
 
         const get = async () => {
 
-            const response = await getWishlistHeaderById(wishlistID);
-            console.log(response);
+            const response = await getWishlistHeaderById(wishlistID);            
 
             setWishlist(response);    
             setUserID(response.user_id)    
             setWishlistNote(response.notes)    
+            setWid(response.ID)
         }
 
         get(); 
@@ -83,8 +93,6 @@ const ShopDetailPage = () => {
 
         const getDetails = async () => {
             const response = await getWishlistDetails(wishlistID);
-            console.log(response.products);
-            console.log(response.details);
             
             setWishlistProducts(response.products)
             setWishlistDetails(response.details)
@@ -94,6 +102,23 @@ const ShopDetailPage = () => {
         
         
     }, [wishlistID, userID]);
+
+    useEffect(() => {
+
+        const getComment = async () => {
+            const response = await getWishlistComments(wishlistID)            
+
+            if(response === 404) {
+                alert("wayolo error")
+            }
+
+            setComments(response.comments)
+            setUsers(response.users)
+        }
+
+        getComment()
+
+    }, [wishlistID])
 
     const handleUpdateRedirect = (index: Number, productID: Number) => {
         console.log(wishlistDetails[index].wishlist_id);
@@ -143,7 +168,27 @@ const ShopDetailPage = () => {
         updateNote()
     }
 
-    if (!wishlistDetails || !wishlist || Object.keys(wishlist).length == 0) return <div>Loading ...</div>
+    const handleInsertComment = async(e:any) => {
+        e.preventDefault()
+
+        const newComment: Comment = {
+            wishlist_id: wid,
+            user_id: uid,
+            type: type,
+            comment: comment,
+        }
+
+        const response = await AddNewComment(newComment)
+
+        if(response === 404) {
+            alert("weng wong")
+        }
+
+        alert("New comment successfully inserted")
+        window.location.reload()
+    }
+
+    if (!comments || !wishlistDetails || !wishlist || Object.keys(wishlist).length == 0) return <div>Loading ...</div>
 
     return ( 
         <div>
@@ -220,7 +265,7 @@ const ShopDetailPage = () => {
                 </div>
 
                 <div className={style.notes}>
-                    {(wishlistNote === "") ?
+                    {(wishlistNote === "" && userID === user.ID) ?
                         <div>
                             <form onSubmit={handleNote}>
                                 <div className={style.noteTitle}>
@@ -234,13 +279,61 @@ const ShopDetailPage = () => {
                                 </div>
                             </form>
                         </div>
-                    :
+                    : (userID === user.ID) ?
                         <div>
                             <div className={style.noteTitle}>
                                 Wishlist Note
                             </div>
 
                             {wishlistNote}
+                        </div>
+                    :
+                        <div>
+                            <div className={style.noteTitle}>
+                                Comment
+                                <br></br>
+                            </div>
+
+                            <div>
+                                {comments.map((comment: any, index: Number) => {
+                                    return (
+                                        <div className={style.commentCard}>
+                                            {(comment.type === 'anonymus') ?
+                                                <div>
+                                                    {comment.comment} (Anonymus)
+                                                </div>
+                                            : (comment.type === 'not anonymus') ?
+                                                <div>
+                                                    {comment.comment} ({users[index].first_name})
+                                                </div>
+                                            : 
+                                                <div>
+                                                </div>
+                                            }
+                                        </div>
+                                    )
+                                })}
+                            </div>
+
+                            <div className={style.addComment}>
+                                <div className={style.subTitle}>
+                                    <br></br>
+                                    Insert Comment
+                                </div>
+
+                                <form onSubmit={handleInsertComment} className={style.form}>
+                                    <RectangularInputField value={comment} onChange={setComment} required placeholder="Comment" />
+                                    
+                                    <select className={style.commentSelection} onChange={(e) => setType(e.target.value)}>
+                                        <option value='anonymus'>Anonymus</option>
+                                        <option value='not anonymus'>Not Anonymus</option>
+                                    </select>
+
+                                    <button className={style.button}>
+                                        Insert Comment
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     }
                 </div>

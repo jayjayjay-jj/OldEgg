@@ -237,3 +237,22 @@
     font-weight: bold;
 }
 
+.lowerBody {
+    padding: 5px 25px;
+}
+
+.lowerTitle {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.lowerCont {
+    padding: 5px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.lowerText {
+    font-size: 20px;
+}

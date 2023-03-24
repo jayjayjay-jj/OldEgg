@@ -128,3 +128,23 @@ func DeleteDetailItem(ctx *gin.Context) {
 
 	ctx.JSON(200, &wishlist)
 }
+
+func CountShopOrder(ctx *gin.Context) {
+
+	type RequestBody struct {
+		ShopID int64 `json:"shop_id"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
+	var detail []model.OrderDetail
+	config.DB.
+		Table("order_details").
+		Select("order_details.*").
+		Joins("join products on products.id = order_details.product_id").
+		Where("products.shop_id = ?", body.ShopID).
+		Find(&detail)
+
+	ctx.JSON(200, &detail)
+}

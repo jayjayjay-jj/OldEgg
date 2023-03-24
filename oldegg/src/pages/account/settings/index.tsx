@@ -19,22 +19,26 @@ import GetProductCount from "@/api/get-product-count";
 import LowerNavbar from "@/layout/lowerNavbar";
 import RectangularInputField from "@/pages/components/RectangularInputField";
 import SendNewsletter from "@/api/send-newsletter";
+import getShopDesc from "@/api/get-shop-desc-by-shop-id";
 
 const AccountSettingsPage = () => {
-    const[user, setUser] = useState<User>()
-    const[shop, setShop] = useState<Shop>()
-    const[role, setRole] = useState('');
+    const [user, setUser] = useState<User>()
+    const [shop, setShop] = useState<Shop>()
+    const [role, setRole] = useState('');
     
-    const[name, setName] = useState('')
-    const[count, setCount] = useState()
+    const [shopID, setShopID] = useState()
+    const [name, setName] = useState('')
+    const [count, setCount] = useState()
     const [newsletter, setNewsletter] = useState('')
-    const[stock, setStock] = useState('All');
-    const[products, setProducts] = useState<any>();
-    const[shops, setShops] = useState<any>()
+    const [stock, setStock] = useState('All');
+
+    const [descs, setDescs] = useState<any>()
+    const [products, setProducts] = useState<any>();
+    const [shops, setShops] = useState<any>()
     
-    const[page, setPage] = useState(1)
-    const[limit, setLimit] = useState(5)
-    const[totalPage, setTotalPage] = useState(0)
+    const [page, setPage] = useState(1)
+    const [limit, setLimit] = useState(5)
+    const [totalPage, setTotalPage] = useState(0)
     
     const router = useRouter() 
     const { theme } = useContext(ThemeContext);
@@ -93,7 +97,7 @@ const AccountSettingsPage = () => {
                 signIn = 100
                 setShop(shop)
                 setName(shop.name)
-        
+                setShopID(shop.ID)
             }
         }
         
@@ -137,18 +141,34 @@ const AccountSettingsPage = () => {
         
     }, [shop?.name, stock, page, limit]);
 
+    useEffect(() => {
+
+        const getShopDescription = async () => {
+            const response = await getShopDesc(Number(shopID))
+
+            if(response === 404) {
+                alert("HAYO NGAPAIN")
+            }
+
+            if(descs === undefined) {
+                setDescs(response)
+            }
+
+            setDescs(response)
+        }
+
+        getShopDescription()
+
+    }, [shopID])
+
     if (!shop || Object.keys(shop).length == 0) return <div>Loading ...</div>
 
     const onPrevButtonClicked = () => {
-
         if (page !== 1) setPage(page - 1); 
-
     }
 
     const onNextButtonClicked = () => {
-
         setPage(page + 1);
-
     }
 
     if(products === undefined) {
@@ -255,6 +275,10 @@ const AccountSettingsPage = () => {
                                         Current shop status: &nbsp;
                                         {(shop?.status == "Banned") ? "Banned" : "Active"}
                                     </div>
+
+                                    <button className={style.button}>
+                                        <Link className={style.buttonLink} href='/account/live-chat'>Message Center</Link>
+                                    </button>
                                 </div>
                                 
 
@@ -308,6 +332,31 @@ const AccountSettingsPage = () => {
                     <div className={style.paginateButton}>
                         <button className={style.pageButton} onClick={onPrevButtonClicked} style={{ backgroundColor : theme.gray_white }}>Prev</button>
                         <button className={style.pageButton} onClick={onNextButtonClicked} style={{ backgroundColor : theme.gray_white }}>Next</button>
+                    </div>
+
+                    <div className={style.lowerBody}>
+                        <br></br>
+                        <br></br>
+
+                        <div className={style.lowerTitle}>
+                            About Us
+                        </div>
+
+                        <hr />
+
+                        <div className={style.lowerCont}>
+                            {descs && descs.map((desc: any) => {
+                                return (
+                                    <div className={style.lowerDesc}>
+                                        {desc.desc}
+                                    </div>
+                                )
+                            })}
+
+                            <button className={style.button}>
+                                <Link href='/account/change-shop-information' className={style.buttonLink}>Update Shop Description</Link>
+                            </button>
+                        </div>                       
                     </div>
                 </div>
             }

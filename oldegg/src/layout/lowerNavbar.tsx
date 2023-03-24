@@ -146,40 +146,71 @@ export default function LowerNavbar() {
 
     return (
         <div className={style.index}>
-            <button className={style.button}>
-                <Link className={style.buttonLink} href='/user/public-wishlist/all-wishlist'>Public Wishlist</Link>
-            </button>
+            <div className={style.lowerUpper}>
+                <button className={style.button}>
+                    <Link className={style.buttonLink} href='/user/public-wishlist/all-wishlist'>Public Wishlist</Link>
+                </button>
 
-            <button className={style.button}>
-                <Link className={style.buttonLink} href='/user/wishlist'>My Wishlist</Link>
-            </button>
+                <button className={style.button}>
+                    <Link className={style.buttonLink} href='/user/wishlist'>My Wishlist</Link>
+                </button>
 
-            <button className={style.button}>
-                <Link className={style.buttonLink} href='/user/cart'>Cart</Link>
-            </button>
+                <button className={style.button}>
+                    <Link className={style.buttonLink} href='/user/followed-wishlist'>Followed Wishlist</Link>
+                </button>
 
-            <button className={style.button}>
-                <Link className={style.buttonLink} href='/user/save-later'>Save for Later</Link>
-            </button>
+                <button className={style.button}>
+                    <Link className={style.buttonLink} href='/user/cart'>Cart</Link>
+                </button>
 
-            <button className={style.button}>
-                <Link className={style.buttonLink} href='/user/order'>Order Page</Link>
-            </button>
+                <button className={style.button}>
+                    <Link className={style.buttonLink} href='/user/save-later'>Save for Later</Link>
+                </button>
 
-            <div className={style.categories}>
-            {
-                categories && categories.map((category: any) => {
-                    return (
-                    <div className={style.categoryCard} style={{ backgroundColor: theme.lightBlue_darkBlue }}>
-                        {category.category_name}
-                    </div>
-                    )
-                })
+                <button className={style.button}>
+                    <Link className={style.buttonLink} href='/user/order'>Order Page</Link>
+                </button>
+
+                <button className={style.button}>
+                    <Link className={style.buttonLink} href='/user/search'>Search Page</Link>
+                </button>
+
+                {(role === 'user') ?  
+                    <button className={style.button}>
+                        <Link className={style.buttonLink} href='/user/review'>Review Page</Link>
+                    </button>
+                    :
+                (role === 'shop') ?
+                    <button className={style.button}>
+                        <Link className={style.buttonLink} href='/shop/shop-review'>Review Page</Link>
+                    </button>
+                    :
+                    <button className={style.button}>
+                        <Link className={style.buttonLink} href='/user/review'>Review Page</Link>
+                    </button>
                 }
+
+                <button className={style.button}>
+                    <Link className={style.buttonLink} href='/user/build-pc'>Build PC</Link>
+                </button>
             </div>
 
-            <div className={style.text}>
-                Cart: Rp{totalPrice}
+            <div className={style.lowerLower}>
+                <div className={style.categories}>
+                {
+                    categories && categories.map((category: any) => {
+                        return (
+                            <div className={style.categoryCard} style={{ backgroundColor: theme.lightBlue_darkBlue }}>
+                            {category.category_name}
+                        </div>
+                        )
+                    })
+                }
+                </div>
+
+                <div className={style.text}>
+                    Cart: Rp{totalPrice}
+                </div>
             </div>
         </div>
     )

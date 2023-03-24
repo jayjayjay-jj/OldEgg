@@ -1,13 +1,28 @@
 .index {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.lowerUpper {
+    display: flex;
     flex-direction: row;
     gap: 10px;
     align-items: center;
     padding: 10px 5px;
 }
 
+.lowerLower {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
 .button {
-    width: 112px;
+    width: 125px;
     height: 20px;
     font-weight: bold;
     font-size: 13px;

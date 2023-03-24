@@ -28,6 +28,8 @@ func migrate() {
 	DB.AutoMigrate(&model.OrderHeader{})
 	DB.AutoMigrate(&model.OrderDetail{})
 	DB.AutoMigrate(&model.Newsletter{})
+	DB.AutoMigrate(&model.ShopDesc{})
+	DB.AutoMigrate(&model.Comment{})
 }
 
 func Connect() {
