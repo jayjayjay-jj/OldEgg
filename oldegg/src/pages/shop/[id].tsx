@@ -12,6 +12,7 @@ import ShopNavbar from "@/layout/shopNavbar";
 import getShopByCategories from "@/api/get-shop-categories";
 import getShopDesc from "@/api/get-shop-desc-by-shop-id";
 import getOrderDetailsByShop from "@/api/get-order-detail-by-shop";
+import Link from "next/link";
 
 const ShopDetailPage = () => {
     
@@ -176,6 +177,12 @@ const ShopDetailPage = () => {
                         <div className={style.shopName}>
                             <h1>{shop.name}</h1>
                         </div> 
+
+                        <div className={style.message}>
+                            <button className={style.messageButton}>
+                                <Link className={style.buttonLink} href='live-chat/customer-to-shop'> Message Shop</Link>
+                            </button>
+                        </div>
 
                         <div className={style.left}>
                             Categories: 

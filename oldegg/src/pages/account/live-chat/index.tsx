@@ -69,10 +69,6 @@ const LiveChatPage = () => {
                             }
                         </div>
 
-                        <button className={style.button}>
-                            <Link className={style.buttonLink} href='live-chat/customer-to-shop'>Shop</Link>
-                        </button>
-
                         <div className={style.title}>
                             <br></br>
                             Manage Ongoing Promotion

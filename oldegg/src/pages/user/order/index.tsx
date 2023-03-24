@@ -12,6 +12,7 @@ import style from '@/styles/order/Order.module.scss'
 import UpdateOrderStatus from "@/api/update-order-status";
 import getAllOrder from "@/api/get-all-order";
 import ShopAuthentication from "@/api/shop-authentication";
+import { useRouter } from "next/router";
 
 const OrderPage = () => {
     const [role, setRole] = useState('')
@@ -26,6 +27,8 @@ const OrderPage = () => {
     const [shopOrder, setShopOrder] = useState<any>()
     const [details, setDetails]= useState<any>()
     const [products, setProducts] = useState<any>()
+
+    const router = useRouter()
 
     useEffect(() => {
         setRole(localStorage.getItem('role'))
@@ -132,6 +135,10 @@ const OrderPage = () => {
         window.location.reload()
     }
 
+    const goToDetail = (id: Number) => {
+        router.push('/user/order/' + id);
+    }
+
     if(!userOrder || !details || !products) <div>Loading...</div>
 
     return ( 
@@ -160,7 +167,7 @@ const OrderPage = () => {
                         {userOrder && userOrder.map((order: any) => {
                             return (
                                 <div className={style.card}>
-                                    <div className={style.cardName}>
+                                    <div className={style.cardName} onClick={() => goToDetail(order.ID)}>
                                         Order Id : {order.ID}
                                     </div>
 

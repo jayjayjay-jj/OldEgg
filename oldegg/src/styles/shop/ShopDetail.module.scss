@@ -150,6 +150,26 @@
     font-size: 20px;
 }
 
+.message {
+    display: flex;
+    padding: 0px 0px 10px 50px
+}
+
+.messageButton {
+    width: 200px;
+    height: 44px;
+    background-color: #ffa33a;
+    border: 1px solid #d60;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.buttonLink {
+    color: black;
+    text-decoration: none;
+}
+
 @media screen and (max-width: 400px) {
     .left {
         font-size: 12px;

@@ -110,9 +110,16 @@ func Route(router *gin.Engine) {
 	router.POST("/get-user-order", controller.GetUserOrder)
 	router.POST("/get-orders-detail-by-id", controller.GetOrderDetail)
 	router.POST("/update-order-status/:id", controller.UpdateOrderStatus)
+	router.POST("/get-order-detail-with-item", controller.GetOrderDetailWItem)
 
 	router.POST("/send-newsletter", controller.SendNewsletter)
 
 	router.POST("/insert-comment", controller.InsertComment)
 	router.POST("/show-comment", controller.ShowAllWishlistComment)
+
+	router.POST("/insert-review", controller.InsertReview)
+	router.POST("/show-reviews", controller.ShowAllUserReview)
+	router.POST("/show-order-reviews", controller.ShowUserOrderReview)
+	router.POST("/show-review-detail", controller.ShowReviewDetail)
+	router.POST("/update-user-review-detail", controller.UpdateUserReview)
 }

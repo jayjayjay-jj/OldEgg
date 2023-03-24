@@ -30,6 +30,7 @@ func migrate() {
 	DB.AutoMigrate(&model.Newsletter{})
 	DB.AutoMigrate(&model.ShopDesc{})
 	DB.AutoMigrate(&model.Comment{})
+	DB.AutoMigrate(&model.Review{})
 }
 
 func Connect() {

@@ -208,9 +208,13 @@ export default function LowerNavbar() {
                 }
                 </div>
 
-                <div className={style.text}>
-                    Cart: Rp{totalPrice}
-                </div>
+                {(role === 'user') ?
+                    <div className={style.text}>
+                        Cart: Rp{totalPrice}
+                    </div>
+                :
+                    <div></div>
+                }
             </div>
         </div>
     )

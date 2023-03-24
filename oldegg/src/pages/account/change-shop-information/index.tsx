@@ -8,15 +8,12 @@ import { useRouter } from "next/router";
 import JWT from "@/types/JWTToken";
 import getCookie from "@/util/getCookie";
 import ShopAuthentication from "@/api/shop-authentication";
-import UpdateShopInformation from "@/api/update-shop-information";
-import { initializeApp } from "firebase/app";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import 'firebase/firestore';
-import { getFirestore } from "firebase/firestore";
 import ShopNavbar from "@/layout/shopNavbar";
 import LowerNavbar from "@/layout/lowerNavbar";
 import getShopDesc from "@/api/get-shop-desc-by-shop-id";
 import UpdateShopDesc from "@/api/update-shop-desc";
+
 const ChangeShopPersonal = () => {
     const [shop, setShop] = useState<any>()
     const [role, setRole] = useState("")

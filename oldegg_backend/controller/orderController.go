@@ -119,6 +119,42 @@ func GetOrderDetail(ctx *gin.Context) {
 	ctx.JSON(200, gin.H{"ids": id, "orders": orders, "details": details, "products": products})
 }
 
+func GetOrderDetailWItem(ctx *gin.Context) {
+
+	type RequestBody struct {
+		ID     int64 `json:"order_id`
+		UserID int64 `json:"user_id"`
+	}
+
+	var requestBody RequestBody
+	ctx.ShouldBindJSON(&requestBody)
+
+	var orders []model.OrderHeader
+	var details []model.OrderDetail
+	var products []model.Product
+	var addreses []model.Address
+	var deliveries []model.DeliveryProvider
+	var payments []model.PaymentMethod
+	config.DB.
+		Table("order_headers").
+		Select("order_headers.*, order_details.*, products.*, addresses.*, delivery_providers.*, payment_methods.*").
+		Joins("join order_details on order_headers.id = order_details.order_id").
+		Joins("join products on products.id = order_details.product_id").
+		Joins("join addresses on order_headers.address_id = addresses.id").
+		Joins("join delivery_providers on order_headers.delivery_id = delivery_providers.id").
+		Joins("join payment_methods on payment_methods.id = order_headers.payment_id").
+		Where("order_headers.user_id = ?", requestBody.UserID).
+		Where("order_details.order_id = ?", requestBody.ID).
+		Find(&orders).
+		Find(&details).
+		Find(&products).
+		Find(&addreses).
+		Find(&deliveries).
+		Find(&payments)
+
+	ctx.JSON(200, gin.H{"orders": orders, "details": details, "products": products, "addresses": addreses, "deliveries": deliveries, "payments": payments})
+}
+
 func GetAllOrder(ctx *gin.Context) {
 
 	type RequestBody struct {
