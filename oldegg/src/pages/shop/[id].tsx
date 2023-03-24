@@ -7,27 +7,33 @@ import { useContext, useEffect, useState } from "react";
 import style from '@/styles/shop/ShopDetail.module.scss'
 import { ThemeContext } from "../changer/themeChanger";
 import getProductByStock from "@/api/get-products-by-stock";
+import LowerNavbar from "@/layout/lowerNavbar";
+import ShopNavbar from "@/layout/shopNavbar";
+import getShopByCategories from "@/api/get-shop-categories";
 
 const ShopDetailPage = () => {
     
     const router = useRouter();
     const [shopID, setShopID] = useState<any>();
     const [shop, setShop] = useState<any>();
-    const [products, setProducts] = useState<any>();
     const [count, setCount] = useState(0);
     const [stock, setStock] = useState('All');
-
+    
     const {theme} = useContext(ThemeContext);
+    const [role, setRole] = useState('')
+    const [categories, setCategories] = useState<any>()
+    const [products, setProducts] = useState<any>();
 
-    const[page, setPage] = useState(1)
-    const[limit, setLimit] = useState(50)
-    const[totalPage, setTotalPage] = useState(0)
+    const [page, setPage] = useState(1)
+    const [limit, setLimit] = useState(50)
+    const [totalPage, setTotalPage] = useState(0)
     
     useEffect(() => {
         setShopID(router.query.id);
     }, [router.query.id]);
 
     useEffect(() => {
+        setRole(localStorage.getItem('role'))
 
         const get = async () => {
 
@@ -66,9 +72,24 @@ const ShopDetailPage = () => {
 
         getProductsPaginate();
 
-    }, [shopID, stock, page, limit]);
+        const getShopCategories = async() => {
+            const response = await getShopByCategories(shopID);
+            console.log(response);
 
-    if (!shop || Object.keys(shop).length == 0) return <div>Loading ...</div>
+            if(response === 404) {
+                alert("Something wengwong")
+            }
+            
+            setCategories(response)
+        }
+
+        getShopCategories();
+        console.log(categories);
+        
+
+    }, [shopID, stock, page, limit, products]);
+
+    if (!categories || !shop || Object.keys(shop).length == 0) return <div>Loading ...</div>
 
     const goToDetail = (id: Number) => {
         router.push('/shop/products/' + id);
@@ -95,7 +116,8 @@ const ShopDetailPage = () => {
     return ( 
         <div>
             <header>
-                <Navbar />
+                {(role == "user") ? <Navbar /> : (role == "shop") ? <ShopNavbar /> : <Navbar />}
+                <LowerNavbar />
             </header>
 
             <div>
@@ -108,6 +130,19 @@ const ShopDetailPage = () => {
                         <div className={style.shopName}>
                             <h1>{shop.name}</h1>
                         </div> 
+
+                        <div className={style.left}>
+                            Categories: 
+                            {
+                                (categories.map((category: any) => {
+                                    return (
+                                        <div className={style.categories}>
+                                            {category.category_name}
+                                        </div>
+                                    )
+                                }))
+                            }
+                        </div>
 
                         <div className={style.blanket}>
                             <div className={style.left}>

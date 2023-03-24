@@ -15,6 +15,8 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import 'firebase/firestore';
 import { getFirestore } from "firebase/firestore";
 import ShopUpperSetting from "@/pages/components/ShopUpperSetting";
+import LowerNavbar from "@/layout/lowerNavbar";
+import ShopNavbar from "@/layout/shopNavbar";
 
 // firebase config here 
 const firebaseConfig = {
@@ -64,6 +66,7 @@ const InsertNewShop = () => {
     const[url, setUrl] = useState('')
     
     const router = useRouter()
+    const [role, setRole] = useState('')
     const {theme} = useContext(ThemeContext);
 
     async function handleFileChange(event:any) {
@@ -74,6 +77,7 @@ const InsertNewShop = () => {
 
     const handleFormSubmit = async (e:any) => {
         e.preventDefault();
+        setRole(localStorage.getItem('role'))
 
         const newShop:Shop = {
             name: name,
@@ -96,7 +100,8 @@ const InsertNewShop = () => {
     return ( 
         <div>
             <header>
-                <Navbar />
+                {(role == "user") ? <Navbar /> : (role == "shop") ?     <ShopNavbar /> : <Navbar />} 
+                <LowerNavbar />
             </header>
 
             <div>

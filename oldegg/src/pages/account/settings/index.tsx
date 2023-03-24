@@ -16,22 +16,28 @@ import ShopAuthentication from "@/api/shop-authentication";
 import Shop from "@/types/Shop";
 import getProductByShopNameStock from "@/api/get-products-by-shop-and-stock-paginate";
 import GetProductCount from "@/api/get-product-count";
+import LowerNavbar from "@/layout/lowerNavbar";
+import RectangularInputField from "@/pages/components/RectangularInputField";
+import SendNewsletter from "@/api/send-newsletter";
 
 const AccountSettingsPage = () => {
     const[user, setUser] = useState<User>()
     const[shop, setShop] = useState<Shop>()
     const[role, setRole] = useState('');
-    const router = useRouter() 
-
+    
     const[name, setName] = useState('')
     const[count, setCount] = useState()
+    const [newsletter, setNewsletter] = useState('')
     const[stock, setStock] = useState('All');
     const[products, setProducts] = useState<any>();
     const[shops, setShops] = useState<any>()
-
+    
     const[page, setPage] = useState(1)
     const[limit, setLimit] = useState(5)
     const[totalPage, setTotalPage] = useState(0)
+    
+    const router = useRouter() 
+    const { theme } = useContext(ThemeContext);
 
     let signIn = 0
     let message = ""
@@ -127,7 +133,7 @@ const AccountSettingsPage = () => {
 
         };
 
-        fetchProductCount()
+        fetchProductCount()      
         
     }, [shop?.name, stock, page, limit]);
 
@@ -162,11 +168,22 @@ const AccountSettingsPage = () => {
         router.push("/")
     }
 
-    const { theme } = useContext(ThemeContext);
+    const handleNewsletter = async () => {
+        const response = await SendNewsletter(newsletter)
+
+        if(response === 404) {
+            alert("Error in sending email")
+        }
+        alert("Newsletter sent successfully")
+        router.push("/")
+    }
 
     return ( 
         <div>
-            {(role == "user") ? <Navbar /> : (role == "shop") ? <ShopNavbar /> : <Navbar />}
+            <header>
+                {(role == "user") ? <Navbar /> : (role == "shop") ? <ShopNavbar /> : <Navbar />}
+                <LowerNavbar />
+            </header>
 
             <div className={style.body} style={{ backgroundColor : theme.white_gray }}>
                 {(role == "user") ?
@@ -190,11 +207,29 @@ const AccountSettingsPage = () => {
                     </div>
 
                     <div className={style.card} style={{ backgroundColor : theme.lightBlue_darkBlue }}>
+                        Current Amount of Money : Rp{user?.money}
+                    </div>
+
+                    <div className={style.card} style={{ backgroundColor : theme.lightBlue_darkBlue }}>
                         <p className={style.pass}>Password: {user?.password}</p>
-                        <button className={style.button}>Change Password</button>
+                        <button className={style.button}>
+                            <Link href='/account/confirm-password' className={style.buttonLink}>Change Password</Link>
+                        </button>
                     </div>
                     
-                    
+                    <div className={style.card} style={{ backgroundColor : theme.lightBlue_darkBlue }}>
+                        <RectangularInputField required value={newsletter} onChange={setNewsletter} placeholder="Newsletter"/>
+
+                        <button className={style.button} onClick={handleNewsletter}>
+                            Send Newsletter
+                        </button>
+                    </div>
+
+                    <div className={style.card} style={{ backgroundColor : theme.lightBlue_darkBlue }}>
+                        <button className={style.button}>
+                            <Link href='/account/live-chat' className={style.buttonLink}>Message Center</Link>
+                        </button>
+                    </div>
                 </div>
                 :
                 <div>
@@ -204,9 +239,10 @@ const AccountSettingsPage = () => {
 
                     <div className={style.outer}>
                         <div className={style.body}>
-                            <div className={style.shopName}>
-                                {shops?.id}
-                                <h1>{shop?.name}</h1>
+                            <div>
+                                <div className={style.shopName}>
+                                    <h1>{shop?.name}</h1>
+                                </div>
                             </div> 
 
                             <div className={style.blanket}>
@@ -223,16 +259,24 @@ const AccountSettingsPage = () => {
                                 
 
                                 <div className={style.right}>
-                                    <select id="categories" onChange={(e) => {setStock(e.target.value)}} className={style.selection}>
-                                        <option value="All">All</option>
-                                        <option value="Available">Available</option>
-                                        <option value="Out of Stock">Out of Stock</option>
-                                    </select>
+                                    <div>
+                                        <select id="categories" onChange={(e) => {setStock(e.target.value)}} className={style.selection}>
+                                            <option value="All">All</option>
+                                            <option value="Available">Available</option>
+                                            <option value="Out of Stock">Out of Stock</option>
+                                        </select>
+                                    </div>
                                 </div>
+                            </div>
+
+                            <div className={style.index}>
+                                <button className={style.button}>
+                                    <Link href='/account/change-shop-personal' className={style.buttonLink}>Update Shop Name and Picture</Link>
+                                </button>
                             </div>
                         </div>
 
-                        <div className={style.index}>
+                        <div className={style.productIndex}>
                             {
                                 (products.length === 0) ? "No products" : 
                                 Array.isArray(products) && products !== undefined && 

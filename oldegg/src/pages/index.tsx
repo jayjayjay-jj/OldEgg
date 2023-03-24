@@ -15,6 +15,7 @@ import ShowAllProductPaginate from '@/api/show-all-product-paginate'
 import { ThemeContext } from './changer/themeChanger'
 import ShowAllCategories from '@/api/show-all-categories'
 import ShowHomeScrollingProduct from '@/api/show-home-product-scrolling'
+import LowerNavbar from '@/layout/lowerNavbar'
 
 export default function Home() {
 
@@ -121,6 +122,7 @@ export default function Home() {
       <div className={style.index}>
         <header>
           {(role == "user") ? <Navbar /> : (role == "shop") ? <ShopNavbar /> : <Navbar />}
+          <LowerNavbar />
         </header>
 
         <div className={style.body} style={{ backgroundColor: theme.white_gray }}>

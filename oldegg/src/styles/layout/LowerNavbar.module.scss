@@ -1,0 +1,42 @@
+.index {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 5px;
+}
+
+.button {
+    width: 112px;
+    height: 20px;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 0px 5px;
+    background-color: #ffa33a;
+    border: 1px solid #d60;
+    color: black;
+    font-style: none;
+}
+
+.buttonLink {
+    color: black;
+    text-decoration: none;
+}
+
+.text {
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 15px;
+}
+
+.categories {
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.categoryCard {
+    border: 1px solid black;
+    padding: 0px 5px;
+}

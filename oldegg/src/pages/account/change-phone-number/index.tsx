@@ -1,4 +1,3 @@
-import RectangularInputField from "@/pages/components/RectangularInputField";
 import { useEffect, useState } from "react"
 import Navbar from "@/layout/navbar";
 import Footer from "@/layout/footer";
@@ -10,8 +9,11 @@ import Authentication from "@/api/authentication";
 import JWT from "@/types/JWTToken";
 import getCookie from "@/util/getCookie";
 import UpperSetting from "@/pages/components/UpperSetting";
+import LowerNavbar from "@/layout/lowerNavbar";
+import ShopNavbar from "@/layout/shopNavbar";
 
 const ChangePhoneNumber = () => {
+    const[role, setRole] = useState()
     const[user, setUser] = useState<any>()
     const[phoneNumber, setPhoneNumber] = useState('')
     const router = useRouter()
@@ -46,6 +48,8 @@ const ChangePhoneNumber = () => {
         }
 
         getCurrentUser()
+
+        setRole(localStorage.getItem('role'))
     }, [])
 
     const handleSubmit = async () => {
@@ -64,7 +68,8 @@ const ChangePhoneNumber = () => {
     return ( 
         <div>
             <header>
-                <Navbar />
+                {(role == "user") ? <Navbar /> : (role == "shop") ? <ShopNavbar /> : <Navbar />}
+                <LowerNavbar />
             </header>
 
             <div className={style.index}>
@@ -73,8 +78,6 @@ const ChangePhoneNumber = () => {
                 <div className={style.title}>
                     Change Phone Number
                 </div>
-
-                {user?.ID}
 
                 <div>
                     Current Phone Number: {user?.mobile_phone_number}

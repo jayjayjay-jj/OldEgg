@@ -139,6 +139,13 @@ const SignInPage = () => {
                         <button onClick={ getOneTimeSignInCode } type="button" className={style.button}>
                             GET ONE-TIME SIGN IN CODE
                         </button> 
+
+                        <div className={style.text} style={{ color : theme.black_white }}>
+                            <div>
+                                Forgot Password?&nbsp;
+                                <Link href="/account/password" className={style.textLink} style={{ color : theme.black_white }}>Click Here</Link>
+                            </div>
+                        </div>
                     
                     </form> :
                         !isCodeSent ?

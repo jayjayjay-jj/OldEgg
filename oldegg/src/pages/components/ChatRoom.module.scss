@@ -1,0 +1,119 @@
+.chat_room{
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      font-size: 15px;
+
+    .chat_container{
+  
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 10px;
+      
+      .top{
+  
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        height: 350px;
+        background-color: lightblue;
+        border-radius: 7px;
+        padding: 20px;
+        overflow: auto;
+  
+        &::-webkit-scrollbar{
+          
+          width: 5px;
+  
+        }
+  
+        &::-webkit-scrollbar-track{
+          
+          background-color: darkcyan;
+  
+        }
+  
+        
+        &::-webkit-scrollbar-thumb{
+          
+          background-color: var(--tertiary-color-light);
+  
+        }
+        
+        .from{
+  
+          align-self: flex-end;
+          display: flex;
+          flex-direction: column;
+          gap: 1px;
+  
+          h6{
+            align-self: flex-end;
+            margin-right: 5px;
+            font-size: 18px;
+            font-weight: bold;
+          }
+  
+        }
+  
+        .to{
+  
+          align-self: flex-start;
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+  
+          h6{
+  
+            align-self: flex-start;
+  
+          }
+  
+        }
+  
+        .bubble{
+  
+          padding: 5px 10px;
+          background-color: var(--tertiary-color-light);
+          border-radius: 17px;
+  
+        }
+  
+      }
+  
+      .bottom{
+  
+        display: flex;
+        gap: 10px;
+  
+        .textfield{
+  
+          width: 100%;
+          border-radius: 7px;
+          height: 30px;
+          padding: 5px 10px;
+          box-sizing: border-box;
+          background-color: lightpink;
+          outline: 0;
+          border: none;
+  
+        }
+  
+        .button{
+  
+          background-color: var(--tertiary-color-light);
+          transition: all 0.1s ease-in;
+          width: 50px;
+  
+          &:hover{
+  
+            transform: scale(1.05, 1.05);
+  
+          }
+  
+        }
+  
+      }
+  
+    }
+  
+  }

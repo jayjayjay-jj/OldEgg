@@ -19,6 +19,15 @@ func migrate() {
 	DB.AutoMigrate(&model.Voucher{})
 	DB.AutoMigrate(&model.WishlistHeader{})
 	DB.AutoMigrate(&model.WishlistDetail{})
+	DB.AutoMigrate(&model.Cart{})
+	DB.AutoMigrate(&model.Later{})
+	DB.AutoMigrate(&model.Message{})
+	DB.AutoMigrate(&model.Address{})
+	DB.AutoMigrate(&model.DeliveryProvider{})
+	DB.AutoMigrate(&model.PaymentMethod{})
+	DB.AutoMigrate(&model.OrderHeader{})
+	DB.AutoMigrate(&model.OrderDetail{})
+	DB.AutoMigrate(&model.Newsletter{})
 }
 
 func Connect() {

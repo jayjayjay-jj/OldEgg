@@ -2,14 +2,10 @@ import Footer from "@/layout/footer";
 import LowerFooter from "@/layout/lowerFooter";
 import Navbar from "@/layout/navbar"
 import { ThemeContext } from "@/pages/changer/themeChanger";
-import RectangularInputField from "@/pages/components/RectangularInputField";
-import Theme from "@/pages/components/Theme";
 import style from '@/styles/shop/InsertShop.module.scss';
 import Shop from "@/types/Shop";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react"
-import SignUpNewStore from "@/api/insert-new-shop"
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import 'firebase/firestore';

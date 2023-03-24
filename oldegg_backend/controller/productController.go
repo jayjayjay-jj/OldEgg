@@ -107,7 +107,7 @@ func ShowHomeProductsPagination(ctx *gin.Context) {
 	ctx.ShouldBindJSON(&body)
 
 	var product []model.Product
-	config.DB.Limit(9).Find(&product)
+	config.DB.Limit(20).Find(&product)
 
 	ctx.JSON(200, &product)
 }
@@ -275,4 +275,29 @@ func UpdateProduct(ctx *gin.Context) {
 
 	config.DB.Save(&product)
 	ctx.JSON(200, product)
+}
+
+func GetSimilarProduct(ctx *gin.Context) {
+
+	type RequestBody struct {
+		ID       int64 `json:"id"`
+		Category int64 `json:"category"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
+	var products []model.Product
+	config.DB.
+		Table("categories").
+		Select("products.*").
+		Joins("join products on products.category = categories.id").
+		Joins("join shops on products.shop_id = shops.id").
+		Where("products.category = ?", body.Category).
+		Where("shops.status = ?", "Active").
+		Order("random(), products.id DESC").
+		Limit(5).
+		Find(&products)
+
+	ctx.JSON(200, products)
 }

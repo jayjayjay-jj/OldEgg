@@ -19,7 +19,7 @@ import axios from 'axios';
 
 export default function ShopNavbar() {
     const [shop, setShop] = useState<Shop>()
-    const [langOption, setLangOption] = useState('')
+    const [langOption, setLangOption] = useState('en')
 
     let signIn = 0
     let message = ""
@@ -83,12 +83,27 @@ export default function ShopNavbar() {
                     <Image src={address} alt="sidebar" className={style.addressImage}></Image>
 
                     <div className={style.addressText}>
-                        <div className={style.addressHello}>
-                            Hello
-                        </div>
+                        {(langOption === "en") ?
+                            <div className={style.addressHello}>
+                                Hello
+                            </div>
+                        :
+                            <div className={style.addressHello}>
+                                Halo
+                            </div>
+                        }
 
                         <div className={style.textSelection}>
-                            {city == "" ? "Select Address" : city}  
+                            {city == "" ? 
+                                <div>
+                                    {(langOption === "en") ? 
+                                        <div>Select Address</div>
+                                    :
+                                        <div>Pilih Alamat</div>
+                                    }
+                                </div>
+                            : 
+                            city}  
                         </div>
                     </div>
                 </div>
@@ -113,8 +128,8 @@ export default function ShopNavbar() {
 
                 <div className={style.language}>
                     <select id="lang" value={langOption} onChange={handleChange} className={style.languageSelection} style={{ backgroundColor : theme.white_lightBlue }}>
-                        <option value="English">EN</option>
-                        <option value="Indonesian">IND</option>
+                        <option value="en">EN</option>
+                        <option value="ind">IND</option>
                     </select>
                 </div>
                 
@@ -126,30 +141,64 @@ export default function ShopNavbar() {
                     <Image src={people} alt="user" className={style.userImage}></Image>
 
                     <div className={style.userText}>
-                        <div className={style.userWelcome}>
-                            Welcome 
-                        </div>
+                        {(langOption === "en") ?
+                            <div className={style.userWelcome}>
+                                Welcome 
+                            </div>
+                        :
+                            <div className={style.userWelcome}>
+                                Selamat Datang 
+                            </div>
+                        }
                         
                         <div>
                             <div className={style.textSelection}>{shop?.name ?
-                                <Link href="/account/settings" className={style.userSelection}>{shop?.name + " " + "(Shop)"}</Link> : 
-                                <Link href="/account/sign-in" className={style.userSelection}>Sign In/ Register</Link>}</div>
+                                <Link href="/account/settings" className={style.userSelection}>{shop?.name}</Link> 
+                            :
+                                <div>
+                                    {(langOption === "en") ?
+                                        <div>
+                                            <Link href="/account/sign-in" className={style.userSelection}>Sign In/ Register</Link>
+                                        </div>
+                                    :
+                                        <div>
+                                            <Link href="/account/sign-in" className={style.userSelection}>Masuk/ Daftar</Link>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div className={style.return} style={{ backgroundColor : theme.white_lightBlue}}>
-                    <div className={style.returnText}>
-                        Returns
-                    </div>
+                    {(langOption === "en") ?
+                        <div>
+                            <div className={style.returnText}>
+                                Returns
+                            </div>
 
-                    <div className={style.textSelection}>
-                        &orders
-                    </div>
+                            <div className={style.textSelection}>
+                                &orders
+                            </div>
+                        </div>
+                    :
+                        <div>
+                            <div className={style.returnText}>
+                                Pengembalian
+                            </div>
+
+                            <div className={style.textSelection}>
+                                &pemesanan
+                            </div>
+                        </div>
+                    }
                 </div>
 
                 <div className={style.cart} style={{ backgroundColor : theme.white_lightBlue }}>
                     <Image src={cart} alt="shoppingCart" className={style.cartImage}></Image>
+                    <Link href="/"></Link>
                 </div>
             </div>
 

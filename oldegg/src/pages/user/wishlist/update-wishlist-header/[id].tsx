@@ -8,6 +8,10 @@ import style from '@/styles/wishlist/WishlistHeader.module.scss'
 import getWishlistHeaderById from "@/api/get-wishlist-by-id";
 import { ThemeContext } from "@/pages/changer/themeChanger";
 import UpdateWishlistHeader from "@/api/update-wishlist-header";
+import LowerNavbar from "@/layout/lowerNavbar";
+import getCookie from "@/util/getCookie";
+import JWT from "@/types/JWTToken";
+import Authentication from "@/api/authentication";
 
 const ShopDetailPage = () => {
     const router = useRouter();
@@ -15,6 +19,7 @@ const ShopDetailPage = () => {
 
     const [name, setName] = useState("")
     const [status, setStatus] = useState("public")
+    const [user, setUser] = useState<any>()
     const [wishlistID, setWishlistID] = useState<any>();
     const [wishlist, setWishlist] = useState<any>();
     
@@ -31,6 +36,31 @@ const ShopDetailPage = () => {
         }
 
         get();
+
+        const getCurrentUser = async () => {
+            const JWT = getCookie("AuthenticationCookie")
+            // console.log(JWT)
+
+            const token:JWT = {
+                token_string: JWT
+            }
+
+            // console.log(JWT)
+            const user = await Authentication(token)
+            
+            if(user === 404) {
+                alert("Server Error")
+            
+            } else if(user === "Where is Cookie? 0_0null") {
+                alert("No Cookie")
+
+            } else {
+                setUser(user)
+
+            }
+        }
+
+        getCurrentUser()
         
     }, [wishlistID]);
 
@@ -52,8 +82,10 @@ const ShopDetailPage = () => {
         <div>
             <header>
                 <Navbar />
+                <LowerNavbar />
             </header>
 
+            {(wishlist.user_id === user.ID) ? 
             <div className={style.updateIndex}>
                 <div className={style.form}>
                     <div className={style.updateTitle}>
@@ -84,6 +116,17 @@ const ShopDetailPage = () => {
                     </button>
                 </div>
             </div>
+            :
+            <div className={style.title}>
+                <br></br>
+
+                <div>
+                    This is not your wishlist!, You're not allowed to update! ╰（‵□′）╯
+                </div>
+                
+                <br></br>
+            </div>
+            }
 
             <footer>
                 <Footer />

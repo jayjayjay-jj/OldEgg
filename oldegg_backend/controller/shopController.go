@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"fmt"
+	"net/smtp"
 	"oldegg_backend/config"
 	"oldegg_backend/model"
 	"os"
@@ -17,7 +19,7 @@ func InsertShop(ctx *gin.Context) {
 	ctx.JSON(200, newShop)
 
 	var countEmail int64 = 0
-	config.DB.Model(model.User{}).Where("email = ?", newShop.Email).Count(&countEmail)
+	config.DB.Model(model.Shop{}).Where("email = ?", newShop.Email).Count(&countEmail)
 	if countEmail != 0 {
 		ctx.String(200, "Email is not unique")
 
@@ -33,9 +35,32 @@ func InsertShop(ctx *gin.Context) {
 	}
 
 	newShop.Password = string(hash)
+	fmt.Println(newShop.Email)
 
 	config.DB.Create(&newShop)
 	ctx.JSON(200, newShop)
+
+	auth := smtp.PlainAuth("", "jaysieacc@gmail.com", "mjvwmahelwymwqlo", "smtp.gmail.com")
+
+	msg := "Subject: " + "Insert Shop" + "\n" + "\nYour shop is successfully inserted~"
+	var to []string
+	to = append(to, newShop.Email)
+	fmt.Println(newShop.Email)
+
+	err := smtp.SendMail(
+		"smtp.gmail.com:587",
+		auth,
+		"jaysieacc@gmail.com",
+		to,
+		[]byte(msg),
+	)
+
+	if err != nil {
+		ctx.String(200, "Send Error")
+		return
+	}
+
+	ctx.String(200, "Email Sent Successfully")
 }
 
 func ShopSignIn(ctx *gin.Context) {
@@ -161,14 +186,82 @@ func GetShopById(c *gin.Context) {
 func GetShopByName(c *gin.Context) {
 
 	type RequestBody struct {
-		name string `json:"name"`
+		Name string `json:"name"`
 	}
 
 	var requestBody RequestBody
 	c.ShouldBindJSON(&requestBody)
 
 	var shop model.Shop
-	config.DB.Model(model.Shop{}).Where("name = ?", requestBody.name).First(&shop)
+	config.DB.Model(model.Shop{}).Where("name = ?", requestBody.Name).First(&shop)
 
 	c.JSON(200, shop)
+}
+
+func UpdateShop(ctx *gin.Context) {
+
+	type RequestBody struct {
+		ShopId int64  `json:"id"`
+		Name   string `json:"name"`
+		Image  string `json:"image"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
+	var shop model.Shop
+	config.DB.Model(model.Shop{}).Where("id = ?", body.ShopId).First(&shop)
+	shop.Name = body.Name
+	shop.Image = body.Image
+
+	config.DB.Save(&shop)
+	ctx.JSON(200, shop)
+}
+
+func GetShopCategories(ctx *gin.Context) {
+
+	type RequestBody struct {
+		ID int64 `json:"shop_id"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
+	var category []model.Category
+	config.DB.
+		Table("categories").
+		Select("DISTINCT categories.*").
+		Joins("join products on products.category = categories.id").
+		Joins("join shops on products.shop_id = shops.id").
+		Where("products.shop_id = ?", body.ID).
+		Find(&category)
+
+	ctx.JSON(200, category)
+}
+
+func UpdateShopPassword(ctx *gin.Context) {
+
+	type RequestBody struct {
+		ShopID   uint   `json:"shop_id"`
+		Password string `json:"password"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
+	var shop model.Shop
+	config.DB.Model(model.Shop{}).Where("id = ?", body.ShopID).First(&shop)
+	shop.Password = body.Password
+
+	hash, error := bcrypt.GenerateFromPassword([]byte(shop.Password), 8)
+
+	if error != nil {
+		ctx.String(200, "Password hashing failed")
+		return
+	}
+
+	shop.Password = string(hash)
+
+	config.DB.Save(&shop)
+	ctx.JSON(200, shop)
 }

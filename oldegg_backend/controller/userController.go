@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"math/rand"
 	"net/smtp"
 	"oldegg_backend/config"
@@ -87,6 +88,22 @@ func SignIn(ctx *gin.Context) {
 	ctx.String(200, tokenString)
 }
 
+func UpdatePasswordWithConfirmationChecking(ctx *gin.Context) {
+	var attemptUserLogin, userCreated model.User
+	ctx.ShouldBindJSON(&attemptUserLogin)
+
+	// config.DB.First(&userCreated, "email = ?", attemptUserLogin.Email)
+	config.DB.Model(model.User{}).Where("email = ?", attemptUserLogin.Email).First(&userCreated)
+
+	error := bcrypt.CompareHashAndPassword([]byte(userCreated.Password), []byte(attemptUserLogin.Password))
+	if error != nil {
+		ctx.String(200, "Wrong Password!")
+		return
+	}
+
+	ctx.String(200, "Password correct")
+}
+
 func ShowAllUser(ctx *gin.Context) {
 	users := []model.User{}
 	config.DB.Find(&users)
@@ -124,6 +141,51 @@ func UpdateUserPhone(ctx *gin.Context) {
 	var user model.User
 	config.DB.Model(model.User{}).Where("id = ?", body.UserID).First(&user)
 	user.MobilePhoneNumber = body.PhoneNumber
+
+	config.DB.Save(&user)
+	ctx.JSON(200, user)
+}
+
+func UpdateUserMoney(ctx *gin.Context) {
+
+	type RequestBody struct {
+		UserID uint `json:"user_id"`
+		Money  int  `json:"money"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
+	var user model.User
+	config.DB.Model(model.User{}).Where("id = ?", body.UserID).First(&user)
+	user.Money = body.Money
+
+	config.DB.Save(&user)
+	ctx.JSON(200, user)
+}
+
+func UpdateUserPassword(ctx *gin.Context) {
+
+	type RequestBody struct {
+		UserID   uint   `json:"user_id"`
+		Password string `json:"password"`
+	}
+
+	var body RequestBody
+	ctx.ShouldBindJSON(&body)
+
+	var user model.User
+	config.DB.Model(model.User{}).Where("id = ?", body.UserID).First(&user)
+	user.Password = body.Password
+
+	hash, error := bcrypt.GenerateFromPassword([]byte(user.Password), 8)
+
+	if error != nil {
+		ctx.String(200, "Password hashing failed")
+		return
+	}
+
+	user.Password = string(hash)
 
 	config.DB.Save(&user)
 	ctx.JSON(200, user)
@@ -189,24 +251,25 @@ func GetOneTimeCode(ctx *gin.Context) {
 		config.DB.Create(&code)
 
 	} else {
-
 		var user model.OneTimeCode
+
 		config.DB.Model(model.OneTimeCode{}).Where("email = ?", code.Email).First(&user)
 		user.Code = code.Code
 		config.DB.Save(&user)
 
 	}
 
-	auth := smtp.PlainAuth("", "miawmiawmiawcat@gmail.com", "stbqfvknnfvndqip", "smtp.gmail.com")
+	auth := smtp.PlainAuth("", "jaysieacc@gmail.com", "mjvwmahelwymwqlo", "smtp.gmail.com")
 
 	msg := "Subject: " + "One Time Sign In Code" + "\n" + "\nYour Code is: " + code.Code
 	var to []string
 	to = append(to, code.Email)
+	fmt.Println(code.Email)
 
 	err := smtp.SendMail(
 		"smtp.gmail.com:587",
 		auth,
-		"miawmiawmiawcat@gmail.com",
+		"jaysieacc@gmail.com",
 		to,
 		[]byte(msg),
 	)

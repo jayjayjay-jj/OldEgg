@@ -10,4 +10,5 @@ type Voucher struct {
 	Code        string `json:"code"`
 	Description string `json:"description"`
 	Amount      int    `json:"amount"`
+	Status      string `json:"status"`
 }

@@ -12,4 +12,5 @@ type User struct {
 	RoleID            int    `json:"role_id" gorm:"foreign_key:RoleID"`
 	Subscribed        bool   `json:"subscribed"`
 	Status            string `json:"status"`
+	Money             int    `json:"money"`
 }
